@@ -1,3 +1,3 @@
 # Glutton
 
-A aria2 front end client.
+A aria2 web client.

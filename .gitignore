@@ -1,8 +1,3 @@
-nginx.conf
-fabfile.pyc
-fabfile.py
+.DS_Store
 node_modules
 dist
-src/**/*.html
-src/**/*.sass.css
-*.log
