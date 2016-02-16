@@ -3,8 +3,8 @@
 
 <template lang="jade">
 ul
-  li(v-for="download in list")
-    circle-progress(:progress="download.completedLength / download.totalLength")
+  li(v-for="download in list", track-by="gid")
+    circle-progress(:progress="download.completedLength / download.totalLength", :status="download.status")
     |{{getName(download)}}
 </template>
 
