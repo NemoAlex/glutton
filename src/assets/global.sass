@@ -1,0 +1,68 @@
+@import "variables.sass"
+*
+  box-sizing: border-box
+html
+  font-family: sans-serif
+  font-size: 10px
+  height: 100%
+body
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-size: 14px
+  font-weight: 300
+  height: 100%
+.container
+  padding: 0 1.5rem
+  position: relative
+.btn
+  display: inline-block
+  height: 3rem
+  line-height: 3rem
+  color: white
+  position: relative
+  background: $color-primary
+  padding: 0 0.9rem 0 3.4rem
+  border-radius: 0.4rem
+  cursor: pointer
+  i
+    display: block
+    position: absolute
+    left: 0.9rem
+    top: 0.6rem
+    width: 1.8rem
+    height: 1.8rem
+    background: url(icon_add.svg) center no-repeat rgba(255,255,255,.2)
+    border-radius: 0.2rem
+    &.add
+      background-image: url(icon_add.svg)
+    &.pause
+      background-image: url(icon_pause.svg)
+    &.play
+      background-image: url(icon_play.svg)
+    &.remove
+      background-image: url(icon_remove.svg)
+  &:hover
+    background-color: $color-dim
+  &:active
+    background-color: $color-dark
+  &.red
+    background: $color-red
+    &:hover
+      background: $color-red-dim
+    &:active
+      background: $color-red-dark
+  &.yellow
+    background: $color-yellow
+    &:hover
+      background: $color-yellow-dim
+    &:active
+      background: $color-yellow-dark
+  &.blue
+    background: $color-blue
+    &:hover
+      background: $color-blue-dim
+    &:active
+      background: $color-blue-dark
+  &.passive
+    background: $color-grey-2
+  &.disabled
+    background: $color-grey-2 !important

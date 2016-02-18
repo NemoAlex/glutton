@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "lodash": "^4.2.1",
-    "vue": "^1.0.0",
+    "normalize.css": "^3.0.3",
+    "vue": "^1.0.16",
     "whatwg-fetch": "^0.10.1"
   },
   "devDependencies": {
@@ -39,11 +40,13 @@
     "phantomjs": "^1.9.19",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
+    "svg-inline-loader": "^0.4.0",
     "template-html-loader": "0.0.3",
     "url-loader": "^0.5.7",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.0.0",
-    "vue-loader": "^7.4.0",
+    "vue-loader": "^8.1.0",
+    "vue-style-loader": "^1.0.0",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0"
   },

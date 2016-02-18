@@ -28,6 +28,10 @@ module.exports = {
           // fallback to file-loader with this naming scheme
           name: '[name].[ext]?[hash]'
         }
+      },
+      {
+        test: /\.svg$/,
+        loader: 'file-loader'
       }
     ]
   },

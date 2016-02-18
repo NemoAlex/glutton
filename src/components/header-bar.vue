@@ -1,21 +1,34 @@
 <style scoped lang="sass?indentedSyntax">
-.status-bar
-  @import "../assets/variables.sass"
-  color: $color-primary
+@import "../assets/variables.sass"
+header
+  height: 5.6rem
+  padding-top: 1.3rem
+  background: white
+  position: relative
+.btn
+  margin-right: 1rem
 </style>
 
 <template lang="jade">
-ul.status-bar
-  li downloadSpeed: {{downloadSpeed}}
-  li numActive: {{numActive}}
-  li numStopped: {{numStopped}}
-  li numStoppedTotal: {{numStoppedTotal}}
-  li numWaiting: {{numWaiting}}
-  li uploadSpeed: {{uploadSpeed}}
+header
+  .container
+    btn(icon="add") Add
+    btn(icon="play") Start
+    btn(icon="pause", color="yellow") Pause
+    btn(icon="remove", color="red", passive) Remove
+    // ul.status-bar
+      li downloadSpeed: {{downloadSpeed}}
+      li numActive: {{numActive}}
+      li numStopped: {{numStopped}}
+      li numStoppedTotal: {{numStoppedTotal}}
+      li numWaiting: {{numWaiting}}
+      li uploadSpeed: {{uploadSpeed}}
 </template>
 
 <script>
 import * as rpc from '../services/rpc'
+import * as config from 'json!../config.json'
+import btn from './btn.vue'
 
 export default {
   data () {
@@ -39,7 +52,10 @@ export default {
   },
   ready: function () {
     this.fetch()
-    setInterval(this.fetch, 5000)
+    setInterval(this.fetch, config.fetchTime)
+  },
+  components: {
+    btn
   }
 }
 </script>

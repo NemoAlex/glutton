@@ -1,8 +1,9 @@
+<style src="normalize.css"></style>
+<style lang="sass?indentedSyntax" src="./assets/global.sass"></style>
+
 <template lang="jade">
-div
-  h1 {{msg}}
-  header-bar
-  download-list
+header-bar
+download-list
 </template>
 
 <script>
