@@ -1,5 +1,5 @@
 <template lang="jade">
-a.btn(:href="href", :class="[color, disabled ? 'disabled' : '', passive ? 'passive' : '']")
+a.btn(:href="href", :class="[color, disabled ? 'disabled' : '', passive ? 'passive' : '', icon ? 'with-icon' : '']")
   i(v-if="icon", :class="icon")
   slot
 </template>

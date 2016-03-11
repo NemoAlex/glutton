@@ -2,22 +2,15 @@
 <style lang="sass?indentedSyntax" src="./assets/global.sass"></style>
 
 <template lang="jade">
-header-bar
-download-list
+.login(v-if="!loggedIn")
+  new-connection(:history.sync="serverHistory")
+.main(v-if="loggedIn")
+  .header-els
+    header-bar
+    status-bar(:download-speed="downloadSpeed", :upload-speed="uploadSpeed", :filter.sync="filter")
+  .content
+    download-list(:list="downloadList", :selected.sync="selectedGids")
+  new-download(:showing.sync="newDownloadModalShowing", :destination="defaultDestination")
 </template>
 
-<script>
-import HeaderBar from './components/header-bar.vue'
-import DownloadList from './components/download-list.vue'
-
-export default {
-  data () {
-    return {
-    }
-  },
-  components: {
-    HeaderBar,
-    DownloadList
-  }
-}
-</script>
+<script src="./app.js"></script>

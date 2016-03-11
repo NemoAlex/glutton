@@ -1,7 +1,19 @@
-import { map } from 'lodash'
+import { map, isArray } from 'lodash'
 
-export function call (name, params) {
-  return fetch('http://127.0.0.1:6800/jsonrpc', {
+function checkStatus (response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response
+  } else {
+    var error = new Error(response.statusText)
+    error.response = response
+    throw error
+  }
+}
+
+export function call (server, name, params = []) {
+  if (server.secret) params.unshift(`token:${server.secret}`)
+  var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/jsonrpc`
+  return fetch(uri, {
     method: 'post',
     body: JSON.stringify({
       'jsonrpc': '2.0',
@@ -10,22 +22,20 @@ export function call (name, params) {
       'params': params || []
     })
   })
-  .then(function (res) {
-    return res.json()
-  })
-  .then(function (res) {
-    return res.result
-  })
+  .then(checkStatus)
+  .then(res => res.json())
+  .then(res => res.result)
 }
 
-export function multicall (calls) {
-  calls = map(calls, function (value, key) {
-    return {
-      methodName: key,
-      params: value || []
-    }
-  })
-  return fetch('http://127.0.0.1:6800/jsonrpc', {
+export function multicall (server, calls) {
+  if (!isArray(calls)) calls = map(calls, (value, key) => ({ methodName: key, params: value || [] }))
+  if (server.secret) {
+    calls = calls.forEach(function (call) {
+      call.params = call.params.unshift(`token:${server.secret}`)
+    })
+  }
+  var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/jsonrpc`
+  return fetch(uri, {
     method: 'post',
     body: JSON.stringify({
       'jsonrpc': '2.0',
@@ -34,10 +44,7 @@ export function multicall (calls) {
       'params': [calls]
     })
   })
-  .then(function (res) {
-    return res.json()
-  })
-  .then(function (res) {
-    return res.result.map(function (value) { return value[0] })
-  })
+  .then(checkStatus)
+  .then(res => res.json())
+  .then(res => res.result.map(value => value[0]))
 }

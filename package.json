@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "lodash": "^4.2.1",
+    "moment": "^2.11.2",
     "normalize.css": "^3.0.3",
     "vue": "^1.0.16",
+    "vue-touch": "^1.0.2",
     "whatwg-fetch": "^0.10.1"
   },
   "devDependencies": {

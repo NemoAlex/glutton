@@ -32,7 +32,7 @@ export default {
     }
   },
   props: {
-    progress: 0.2,
+    progress: 0,
     status: 'paused'
   },
   computed: {

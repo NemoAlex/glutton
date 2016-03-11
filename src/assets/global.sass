@@ -10,6 +10,15 @@ body
   font-size: 14px
   font-weight: 300
   height: 100%
+  background: $color-grey-1
+  color: $color-text
+.group:after
+  content: ""
+  display: table
+  clear: both
+::selection
+  background: $color-dim
+  color: white
 .container
   padding: 0 1.5rem
   position: relative
@@ -20,9 +29,12 @@ body
   color: white
   position: relative
   background: $color-primary
-  padding: 0 0.9rem 0 3.4rem
+  padding: 0 0.9rem
   border-radius: 0.4rem
   cursor: pointer
+  user-select: none
+  &.with-icon
+    padding-left: 3.4rem
   i
     display: block
     position: absolute
@@ -40,10 +52,6 @@ body
       background-image: url(icon_play.svg)
     &.remove
       background-image: url(icon_remove.svg)
-  &:hover
-    background-color: $color-dim
-  &:active
-    background-color: $color-dark
   &.red
     background: $color-red
     &:hover
@@ -66,3 +74,46 @@ body
     background: $color-grey-2
   &.disabled
     background: $color-grey-2 !important
+  &:hover
+    background-color: $color-hover
+  &:active
+    background-color: $color-active
+textarea
+  background: white
+  border: 0.1rem solid $color-grey-4
+  box-shadow: 0 0 1.6rem 0 rgba(0,0,0,0.04)
+  border-radius: 0.2rem
+  padding: 0.6rem 0.8rem
+  resize: none
+  outline: none
+  width: 100%
+  color: inherit
+  &:focus
+    border-color: #DDD
+
+input
+  border: 0.1rem solid $color-grey-4
+  border-radius: 0.2rem
+  box-shadow: 0 0 1.6rem 0 rgba(0,0,0,0.04)
+  background: white
+  outline: none
+  height: 3.2rem
+  padding: 0 0.8rem
+  width: 100%
+  color: inherit
+  &:focus
+    border-color: #DDD
+
+body>.header-els
+  position: fixed
+  left: 0
+  top: 0
+  width: 100%
+  z-index: 1
+body>.content
+  position: fixed
+  top: 8.8rem
+  left: 0
+  bottom: 0
+  width: 100%
+  overflow-y: auto

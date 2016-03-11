@@ -1,102 +1,99 @@
 <style scoped lang="sass?indentedSyntax">
 @import "../assets/variables.sass"
 .download-list
-  height: 100%
-  padding-top: 5.6rem
-  margin-top: -5.6rem
-  background: $color-grey-1
-  .list
-    -webkit-user-select: none
-    .download
-      height: 5rem
-      // border-bottom: 1px solid $color-white
-      background: $color-white
-      &:nth-child(even)
-        background: white
-      &.selected
-        background: $color-grey-3
-      .container
+  user-select: none
+  .download
+    height: 5rem
+    white-space: nowrap
+    cursor: default
+    // border-bottom: 1px solid $color-white
+    background: $color-white
+    &:nth-child(odd)
+      background: white
+    &.selected
+      background: $color-grey-4
+    .container
+      height: 100%
+      .inner
+        padding-left: 2.9rem
+        position: relative
         height: 100%
-        .inner
-          padding-left: 2.9rem
-          position: relative
+        .circle-progress
+          position: absolute
+          left: 0
+          top: 1.5rem
+        .right-part
           height: 100%
-          .circle-progress
+          position: relative
+          overflow: hidden
+          .name
             position: absolute
             left: 0
-            top: 1.5rem
-          .right-part
-            height: 100%
-            position: relative
+            bottom: 50%
+            width: 100%
             overflow: hidden
-            .name
-              position: absolute
-              left: 0
-              bottom: 50%
-              font-size: 1.4rem
-              line-height: 1.8rem
-              -webkit-user-select: initial
-            .status
-              position: absolute
-              left: 0
-              top: 50%
-              color: $color-grey-1
-              font-weight: 400
-              font-size: 1.2rem
-              line-height: 1.5rem
-
-
+            text-overflow: ellipsis
+            font-size: 1.4rem
+            line-height: 1.8rem
+          .status
+            position: absolute
+            left: 0
+            top: 50%
+            color: $color-grey-1
+            font-weight: 400
+            font-size: 1.2rem
+            line-height: 1.5rem
+            span
+              margin-right: 0.6rem
+            .speed
+              padding-left: 1.5rem
+              background: url(../assets/icon-download.svg) 0.3rem 0.2rem no-repeat
+              color: $color-primary
+              &.upload
+                background-image: url(../assets/icon-upload.svg)
 </style>
 
 <template lang="jade">
-.download-list(@click.self="clearSelected", @keyup.enter="clearSelected")
-  .list
-    .download(v-for="download in list", track-by="gid", :class="{selected: ~selected.indexOf(download.gid)}", @click="select(download.gid, $event)")
-      .container
-        .inner
-          circle-progress(:progress="download.completedLength / download.totalLength", :status="download.status")
-          .right-part
-            .name {{util.getFileName(download.files[0].path)}}
-            .status
-              span.size
-                |{{util.bytesToSize(download.totalLength)}}
+.download-list(@click.self="clearSelected")
+  .download(v-for="download in list", track-by="gid", :class="{selected: ~selected.indexOf(download.gid)}", @mousedown="select(download.gid, $event)", v-touch:doubletap="startOrPause(download)")
+    .container
+      .inner
+        circle-progress(:progress="download.totalLength === '0' ? 0 : download.completedLength / download.totalLength", :status="download.status")
+        .right-part
+          .name {{util.getFileName(download.files[0].path)}}
+          .status
+            span.size
+              | {{util.bytesToSize(download.totalLength)}}
+            span.speed(v-if="download.status == 'active' && download.downloadSpeed !== '0'")
+              | {{util.bytesToSize(download.downloadSpeed)}}/s
+            span.speed.upload(v-if="download.status == 'active' && download.uploadSpeed !== '0'")
+              | {{util.bytesToSize(download.uploadSpeed)}}/s
+            span.eta(v-if="download.status === 'active' && download.downloadSpeed !== '0'")
+              | ETA: {{getETA(download)}}
 
 </template>
 
 <script>
-import * as rpc from '../services/rpc'
-import * as util from '../services/util'
-import * as config from 'json!../config.json'
-import { concat } from 'lodash'
 import CircleProgress from './circle-progress.vue'
+import * as util from '../services/util'
+import * as moment from 'moment'
 
 export default {
   data () {
     return {
-      list: [],
-      selected: [],
       util: util
     }
   },
+  props: {
+    list: [],
+    selected: []
+  },
   computed: {
     gids: function () {
-      return this.list.map(function (download) {
-        return download.gid
-      })
+      return this.list.map(download => download.gid)
     }
   },
   methods: {
-    fetch: function () {
-      var self = this
-      rpc.multicall({
-        'aria2.tellActive': [],
-        'aria2.tellWaiting': [0, 1000],
-        'aria2.tellStopped': [0, 1000]
-      })
-      .then(function (result) {
-        self.list = concat(...result)
-      })
-    },
     select: function (gid, e) {
       if (e.ctrlKey || e.metaKey || e.shiftKey) this.selected.push(gid)
       else this.selected = [ gid ]
@@ -108,13 +105,17 @@ export default {
         this.selected = this.gids.slice(args[0], args[1] + 1)
       }
     },
+    getETA: function (download) {
+      var seconds = (download.totalLength - download.completedLength) / download.downloadSpeed
+      return moment.duration(seconds, 'seconds').humanize()
+    },
+    startOrPause: function (download) {
+      if (download.status === 'paused') this.$dispatch('startSelectedDownloads')
+      else if (download.status === 'active') this.$dispatch('pauseSelectedDownloads')
+    },
     clearSelected: function (e) {
       this.selected = []
     }
-  },
-  ready: function () {
-    this.fetch()
-    setInterval(this.fetch, config.fetchTime)
   },
   components: {
     CircleProgress
