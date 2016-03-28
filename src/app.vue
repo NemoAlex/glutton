@@ -10,8 +10,8 @@
 </style>
 
 <template lang="jade">
-.login(v-if="!loggedIn")
-  new-connection(:history.sync="serverHistory")
+.login(v-show="!loggedIn")
+  new-connection(:history.sync="serverHistory", :server.sync="server")
 .main(v-if="loggedIn", @drop.stop.prevent="dropFiles", @dragover.stop.prevent="dragOver = true", @dragenter="dragOver = true", @dragleave="dragOver = false", @drop="dragOver = false", :class="{ 'drag-over': dragOver }")
   .header-els
     header-bar

@@ -111,13 +111,15 @@ export default {
       })
     },
     disconnect: function () {
-      this.disconnect()
+      // this.server = {}
+      this.loggedIn = false
     }
   },
   ready: function () {
     this.getServerHistory()
     var server = this.serverHistory[0]
     if (server) {
+      this.server = server
       this.connectToServer(server).catch(function (err) {
         return err
       })
@@ -162,10 +164,6 @@ export default {
     testConnection: function (server) {
       return rpc.call(server, 'aria2.getGlobalOption')
     },
-    disconnect: function () {
-      this.server = {}
-      this.loggedIn = false
-    },
     getOptions: function () {
       return rpc.call(this.server, 'aria2.getGlobalOption')
       .then(result => {
@@ -175,7 +173,8 @@ export default {
     },
     getServerHistory: function () {
       var history = window.localStorage.getItem('glutton_server_history')
-      if (history) this.serverHistory = JSON.parse(history)
+      if (!history) return
+      this.serverHistory = JSON.parse(history)
     },
     dropFiles: function (e) {
       let files = e.dataTransfer.files

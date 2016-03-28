@@ -35,16 +35,6 @@ import modal from './modal.vue'
 import inputWithDropdown from './input-with-dropdown.vue'
 
 export default {
-  data () {
-    return {
-      server: {
-        host: 'localhost',
-        port: 6800,
-        secret: '',
-        ssl: false
-      }
-    }
-  },
   props: {
     showing: {
       type: Boolean,
@@ -53,7 +43,8 @@ export default {
     history: {
       type: Array,
       default: []
-    }
+    },
+    server: Object
   },
   events: {
     selectHistory: function (i) {
@@ -69,12 +60,6 @@ export default {
     btn,
     modal,
     inputWithDropdown
-  },
-  watch: {
-    'history': function (history) {
-      if (!history.length) return
-      this.server = Object.assign({}, history[0])
-    }
   }
 }
 </script>
