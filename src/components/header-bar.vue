@@ -1,22 +1,22 @@
 <style scoped lang="sass?indentedSyntax">
 @import "../assets/variables.sass"
 header
-  height: 5.6rem
-  padding-top: 1.3rem
+  height: 56px
+  padding-top: 13px
   background: white
   position: relative
-  border-bottom: 0.1rem solid #F7F7F7
+  border-bottom: 1px solid #F7F7F7
 .btn
-  margin-right: 1rem
+  margin-right: 10px
 </style>
 
 <template lang="jade">
 header
   .container
     btn(icon="add", @click="$dispatch('showNewDownloadModal')") Add
-    btn(icon="play", passive, @click="$dispatch('startSelectedDownloads')") Start
-    btn(icon="pause", color="yellow", passive, @click="$dispatch('pauseSelectedDownloads')") Pause
-    btn(icon="remove", color="red", passive, @click="$dispatch('removeSelectedDownloads')") Remove
+    btn(icon="play", passive, @click="$dispatch('startSelectedDownloads')")
+    btn(icon="pause", color="yellow", passive, @click="$dispatch('pauseSelectedDownloads')")
+    btn(icon="remove", color="red", passive, @click="$dispatch('removeSelectedDownloads')")
 </template>
 
 <script>

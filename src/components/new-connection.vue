@@ -4,13 +4,12 @@
 .new-connection
   .content
     .label
-      margin-bottom: 0.5rem
+      margin-bottom: 5px
       font-weight: 400
 </style>
 
 <template lang="jade">
-.modal-bg(v-show="showing", @click="showing = false")
-.modal.new-connection(v-show="showing")
+modal.new-connection(:showing.sync="showing")
   .header
     .container NEW CONNECTION
     .close(@click="showing = false")
@@ -32,6 +31,7 @@
 
 <script>
 import btn from './btn.vue'
+import modal from './modal.vue'
 import inputWithDropdown from './input-with-dropdown.vue'
 
 export default {
@@ -67,6 +67,7 @@ export default {
   },
   components: {
     btn,
+    modal,
     inputWithDropdown
   },
   watch: {

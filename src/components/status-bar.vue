@@ -1,25 +1,25 @@
 <style scoped lang="sass?indentedSyntax">
 @import "../assets/variables.sass"
 .status-bar
-  height: 3.2rem
-  line-height: 3.2rem
+  height: 32px
+  line-height: 32px
   background: $color-white
   position: relative
-  border-bottom: 0.1rem solid #F7F7F7
-  font-size: 1.2rem
+  border-bottom: 01px solid #F7F7F7
+  font-size: 12px
   input
-    height: 2.2rem
-    padding-left: 0.6rem
-    width: 14rem
+    height: 22px
+    padding-left: 06px
+    width: 140px
   .status
     position: absolute
-    right: 1.5rem
+    right: 15px
     top: 0
-    font-size: 1.2rem
+    font-size: 12px
     .speed
-      margin-left: 0.8rem
-      padding-left: 1.5rem
-      background: url(../assets/icon-download.svg) 0.3rem 0.3rem no-repeat
+      margin-left: 8px
+      padding-left: 15px
+      background: url(../assets/icon-download.svg) 03px 03px no-repeat
       &.upload
         background-image: url(../assets/icon-upload.svg)
 
@@ -46,8 +46,8 @@ export default {
     }
   },
   props: {
-    downloadSpeed: 0,
-    uploadSpeed: 0,
+    downloadSpeed: Number,
+    uploadSpeed: Number,
     filter: ''
   },
   methods: {

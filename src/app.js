@@ -1,6 +1,7 @@
 // components
 import HeaderBar from './components/header-bar.vue'
 import StatusBar from './components/status-bar.vue'
+import BottomBar from './components/bottom-bar.vue'
 import DownloadList from './components/download-list.vue'
 import NewDownload from './components/new-download.vue'
 import NewConnection from './components/new-connection.vue'
@@ -24,12 +25,14 @@ export default {
       },
       serverHistory: [
       ],
+      torrents: [],
       downloadSpeed: 0,
       uploadSpeed: 0,
       newDownloadModalShowing: false,
       defaultDestination: '',
       filter: '',
-      loggedIn: false
+      loggedIn: false,
+      dragOver: false
     }
   },
   computed: {
@@ -55,6 +58,7 @@ export default {
     HeaderBar,
     DownloadList,
     StatusBar,
+    BottomBar,
     NewDownload,
     NewConnection
   },
@@ -77,7 +81,7 @@ export default {
     showNewDownloadModal: function () {
       this.newDownloadModalShowing = true
     },
-    addDownloads: function (download) {
+    addUriDownloads: function (download) {
       var args = download.uris.map((uri, i) => {
         let gid = util.addZeros(Date.now().toString(16), 14, 'f') + util.addZeros(i.toString(16), 2)
         return {
@@ -88,29 +92,42 @@ export default {
       rpc.multicall(this.server, args)
       .then(() => this.fetch())
     },
+    addTorrentDownloads: function (download) {
+      var args = download.torrents.map((torrent, i) => {
+        let gid = util.addZeros(Date.now().toString(16), 14, 'f') + util.addZeros(i.toString(16), 2)
+        return {
+          methodName: 'aria2.addTorrent',
+          params: [torrent.base64, [], Object.assign({}, download.options, { gid: gid })]
+        }
+      })
+      rpc.multicall(this.server, args)
+      .then(() => this.fetch())
+    },
     connectToServer: function (server) {
       server = Object.assign({}, server)
-      // Test connection
-      rpc.call(server, 'aria2.getGlobalOption')
-      .then(() => {
-        this.loggedIn = true
-        this.server = server
-        // Handle the history
-        var duplicateIndex = _.findIndex(this.serverHistory, server)
-        if (~duplicateIndex) this.serverHistory.splice(duplicateIndex, 1)
-        this.serverHistory.unshift(server)
-      })
+      this.connectToServer(server)
       .catch(err => {
         alert(err)
       })
+    },
+    disconnect: function () {
+      this.disconnect()
     }
   },
   ready: function () {
     this.getServerHistory()
-    this.fetch()
-    setInterval(this.fetch, config.fetchTime)
+    var server = this.serverHistory[0]
+    if (server) {
+      this.connectToServer(server).catch(function (err) {
+        return err
+      })
+    }
   },
   methods: {
+    startFetching: function () {
+      this.fetch()
+      setInterval(this.fetch, config.fetchTime)
+    },
     fetch: function () {
       if (!this.loggedIn) return
       rpc.multicall(this.server, {
@@ -126,6 +143,29 @@ export default {
         this.originalDownloadList = list
       })
     },
+    connectToServer: function (server) {
+      return this.testConnection(server)
+      .then(() => {
+        // Login successed
+        this.loggedIn = true
+        this.server = server
+        // Get options
+        this.getOptions()
+        // Handle the history
+        var duplicateIndex = _.findIndex(this.serverHistory, server)
+        if (~duplicateIndex) this.serverHistory.splice(duplicateIndex, 1)
+        this.serverHistory.unshift(server)
+        // Start fetching
+        this.startFetching()
+      })
+    },
+    testConnection: function (server) {
+      return rpc.call(server, 'aria2.getGlobalOption')
+    },
+    disconnect: function () {
+      this.server = {}
+      this.loggedIn = false
+    },
     getOptions: function () {
       return rpc.call(this.server, 'aria2.getGlobalOption')
       .then(result => {
@@ -136,11 +176,33 @@ export default {
     getServerHistory: function () {
       var history = window.localStorage.getItem('glutton_server_history')
       if (history) this.serverHistory = JSON.parse(history)
+    },
+    dropFiles: function (e) {
+      let files = e.dataTransfer.files
+      for (var i = 0; i < files.length; i++) {
+        this.addTorrent(files[i])
+      }
+      this.newDownloadModalShowing = true
+    },
+    addTorrent: function (file) {
+      this.type = 'bt'
+      var reader = new FileReader()
+      reader.onload = (e) => {
+        this.torrents.push({
+          name: file.name,
+          base64: window.btoa(e.target.result)
+        })
+      }
+      reader.readAsBinaryString(file)
     }
   },
   watch: {
     'serverHistory': function (value) {
       window.localStorage.setItem('glutton_server_history', JSON.stringify(value))
+    },
+    'downloadSpeed': function (value) {
+      if (value === '0') document.title = 'Glutton'
+      else document.title = '↓ ' + util.bytesToSize(value) + '/s - Glutton'
     }
   }
 }

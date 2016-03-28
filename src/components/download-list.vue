@@ -3,7 +3,7 @@
 .download-list
   user-select: none
   .download
-    height: 5rem
+    height: 50px
     white-space: nowrap
     cursor: default
     // border-bottom: 1px solid $color-white
@@ -15,13 +15,13 @@
     .container
       height: 100%
       .inner
-        padding-left: 2.9rem
+        padding-left: 29px
         position: relative
         height: 100%
         .circle-progress
           position: absolute
           left: 0
-          top: 1.5rem
+          top: 15px
         .right-part
           height: 100%
           position: relative
@@ -33,21 +33,21 @@
             width: 100%
             overflow: hidden
             text-overflow: ellipsis
-            font-size: 1.4rem
-            line-height: 1.8rem
+            font-size: 14px
+            line-height: 18px
           .status
             position: absolute
             left: 0
             top: 50%
             color: $color-grey-1
             font-weight: 400
-            font-size: 1.2rem
-            line-height: 1.5rem
+            font-size: 12px
+            line-height: 15px
             span
-              margin-right: 0.6rem
+              margin-right: 6px
             .speed
-              padding-left: 1.5rem
-              background: url(../assets/icon-download.svg) 0.3rem 0.2rem no-repeat
+              padding-left: 15px
+              background: url(../assets/icon-download.svg) 3px 3px no-repeat
               color: $color-primary
               &.upload
                 background-image: url(../assets/icon-upload.svg)
@@ -85,8 +85,8 @@ export default {
     }
   },
   props: {
-    list: [],
-    selected: []
+    list: Array,
+    selected: Array
   },
   computed: {
     gids: function () {

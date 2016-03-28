@@ -32,8 +32,8 @@ export default {
     }
   },
   props: {
-    progress: 0,
-    status: 'paused'
+    progress: Number,
+    status: String
   },
   computed: {
     progressColor: function () {

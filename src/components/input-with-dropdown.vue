@@ -1,8 +1,8 @@
 <style scoped lang="sass?indentedSyntax">
 @import "../assets/variables.sass"
 .input-with-dropdown
-  height: 3.2rem
-  line-height: 3rem
+  height: 32px
+  line-height: 30px
   position: relative
   &.focus .menu
     border-color: #DDD
@@ -22,44 +22,44 @@
     left: 0
     top: 0
     width: 100%
-    border: 0.1rem solid #F1F1F1
-    border-radius: 0.2rem
-    box-shadow: 0 0 1.6rem 0 rgba(0, 0, 0, 0.04)
+    border: 1px solid #F1F1F1
+    border-radius: 2px
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.04)
     background: $color-white
     .left-part
       position: absolute
       left: 0
       top: 0
-      width: 6rem
-      padding-right: 1rem
+      width: 60px
+      padding-right: 10px
       text-align: right
       span
         cursor: pointer
         display: block
         user-select: none
     .right-part
-      margin-left: 6rem
+      margin-left: 60px
       background: white
       input
         border: 0
         box-shadow: none
         border-radius: 0
-        height: 3rem
-        line-height: 3rem
-        padding: 0 1rem
+        height: 30px
+        line-height: 30px
+        padding: 0 10px
       .caret
         position: absolute
         right: 0
         top: 0
-        height: 3rem
-        width: 3rem
+        height: 30px
+        width: 30px
         background: url(../assets/icon-down.svg) center no-repeat
         cursor: pointer
       .list
-        max-height: 10rem
+        max-height: 100px
         overflow: auto
         .selection
-          padding: 0 1rem
+          padding: 0 10px
           cursor: default
           position: relative
           user-select: none
@@ -73,16 +73,16 @@
             right: 0
             top: 0
             height: 100%
-            width: 3rem
+            width: 30px
             background: url(../assets/icon_close.svg) center no-repeat
             cursor: pointer
   &.ssl .menu .left-part
-    width: 7.7rem
+    width: 77px
     span
       color: $color-primary
-      background: url(../assets/icon_lock_hover.svg) 1rem center no-repeat
+      background: url(../assets/icon_lock_hover.svg) 10px center no-repeat
   &.ssl .menu .right-part
-    margin-left: 7.7rem
+    margin-left: 77px
 
 </style>
 

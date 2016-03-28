@@ -10,7 +10,6 @@ body
   font-size: 14px
   font-weight: 300
   height: 100%
-  background: $color-grey-1
   color: $color-text
 .group:after
   content: ""
@@ -20,30 +19,31 @@ body
   background: $color-dim
   color: white
 .container
-  padding: 0 1.5rem
+  padding: 0 15px
   position: relative
 .btn
   display: inline-block
-  height: 3rem
-  line-height: 3rem
+  vertical-align: top
+  height: 30px
+  line-height: 30px
   color: white
   position: relative
   background: $color-primary
-  padding: 0 0.9rem
-  border-radius: 0.4rem
+  padding: 0 9px
+  border-radius: 4px
   cursor: pointer
   user-select: none
   &.with-icon
-    padding-left: 3.4rem
+    padding-left: 34px
   i
     display: block
     position: absolute
-    left: 0.9rem
-    top: 0.6rem
-    width: 1.8rem
-    height: 1.8rem
+    left: 9px
+    top: 6px
+    width: 18px
+    height: 18px
     background: url(icon_add.svg) center no-repeat rgba(255,255,255,.2)
-    border-radius: 0.2rem
+    border-radius: 2px
     &.add
       background-image: url(icon_add.svg)
     &.pause
@@ -78,12 +78,14 @@ body
     background-color: $color-hover
   &:active
     background-color: $color-active
+  &.no-title
+    padding-right: 2px
 textarea
   background: white
-  border: 0.1rem solid $color-grey-4
-  box-shadow: 0 0 1.6rem 0 rgba(0,0,0,0.04)
-  border-radius: 0.2rem
-  padding: 0.6rem 0.8rem
+  border: 1px solid $color-grey-4
+  box-shadow: 0 0 16px 0 rgba(0,0,0,0.04)
+  border-radius: 2px
+  padding: 6px 8px
   resize: none
   outline: none
   width: 100%
@@ -92,13 +94,13 @@ textarea
     border-color: #DDD
 
 input
-  border: 0.1rem solid $color-grey-4
-  border-radius: 0.2rem
-  box-shadow: 0 0 1.6rem 0 rgba(0,0,0,0.04)
+  border: 1px solid $color-grey-4
+  border-radius: 2px
+  box-shadow: 0 0 16px 0 rgba(0,0,0,0.04)
   background: white
   outline: none
-  height: 3.2rem
-  padding: 0 0.8rem
+  height: 32px
+  padding: 0 8px
   width: 100%
   color: inherit
   &:focus
@@ -112,7 +114,7 @@ body>.header-els
   z-index: 1
 body>.content
   position: fixed
-  top: 8.8rem
+  top: 88px
   left: 0
   bottom: 0
   width: 100%

@@ -4,31 +4,40 @@
 .new-download
   .content
     .label
-      margin-bottom: 0.5rem
+      margin-bottom: 5px
       font-weight: 400
     .uris
-      height: 10rem
+      height: 100px
       white-space: nowrap
     .left-part
       float: left
       width: 68%
-      padding-right: 1.2rem
+      padding-right: 12px
     .right-part
       float: right
       width: 32%
+    .torrents-list
+      overflow: auto
+      white-space: nowrap
+      min-height: 100px
+      .torrent
+
 </style>
 
 <template lang="jade">
-.modal-bg(v-show="showing", @click="showing = false")
-.modal.new-download(v-show="showing")
+modal.new-download(:showing.sync="showing")
   .header
     .container NEW DOWNLOADS
     .close(@click="showing = false")
   .content
     .container
-      .form-group
+      .form-group(v-if="!torrents.length")
         .label LINK(S)
         textarea.uris(v-el:uri, placeholder="HTTP/FTP/SFTP/BitTorrent URIs", spellcheck="false", v-model="uris")
+      .form-group(v-if="torrents.length")
+        .label TORRENTS
+        .torrents-list
+          .torrent(v-for="torrent in torrents") {{torrent.name}}
       .group
         .left-part
           .label DESTINATION
@@ -38,11 +47,12 @@
           input(v-model="connections", type="number")
   .bottom
     .container
-      btn(:disabled="!uriArray.length", @click="addDownloads") Download
+      btn(:disabled="!allowDownload", @click="addDownloads") Download
 </template>
 
 <script>
 import btn from './btn.vue'
+import modal from './modal.vue'
 import {trim} from 'lodash'
 
 export default {
@@ -53,18 +63,22 @@ export default {
     }
   },
   props: {
-    showing: false,
-    destination: ''
+    showing: Boolean,
+    destination: String,
+    torrents: Array
   },
   watch: {
     'showing': function (newVal) {
       if (!newVal) return
-      this.$els.uri.focus()
+      if (this.$els.uri) this.$els.uri.focus()
     }
   },
   computed: {
     uriArray: function () {
       return trim(this.uris, '\n').split('\n').map(trim).filter(uri => !!uri)
+    },
+    allowDownload: function () {
+      return this.uriArray.length || this.torrents.length
     }
   },
   methods: {
@@ -72,20 +86,37 @@ export default {
       this.uris = ''
     },
     addDownloads: function () {
-      if (!this.uriArray.length) return
-      this.$dispatch('addDownloads', {
-        uris: this.uriArray,
+      if (!this.allowDownload) return
+      if (this.torrents.length) {
+        this.addTorrentDownloads(this.torrents)
+      } else {
+        this.addUriDownloads(this.uriArray)
+      }
+      this.showing = false
+      this.reset()
+    },
+    addUriDownloads: function (uris) {
+      this.$dispatch('addUriDownloads', {
+        uris: uris,
         options: {
           'max-connection-per-server': this.connections,
           'dir': this.destination
         }
       })
-      this.showing = false
-      this.reset()
+    },
+    addTorrentDownloads: function (torrents) {
+      this.$dispatch('addTorrentDownloads', {
+        torrents: torrents,
+        options: {
+          'max-connection-per-server': this.connections,
+          'dir': this.destination
+        }
+      })
     }
   },
   components: {
-    btn
+    btn,
+    modal
   }
 }
 </script>
