@@ -137,8 +137,8 @@ export default {
         'aria2.tellStopped': [0, 1000]
       })
       .then(result => {
-        this.downloadSpeed = result[0].downloadSpeed
-        this.uploadSpeed = result[0].uploadSpeed
+        this.downloadSpeed = Number(result[0].downloadSpeed)
+        this.uploadSpeed = Number(result[0].uploadSpeed)
         var list = _.concat(result[1], result[2], result[3])
         this.originalDownloadList = list
       })

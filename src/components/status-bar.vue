@@ -46,9 +46,18 @@ export default {
     }
   },
   props: {
-    downloadSpeed: Number,
-    uploadSpeed: Number,
-    filter: ''
+    downloadSpeed: {
+      type: Number,
+      default: 0
+    },
+    uploadSpeed: {
+      type: Number,
+      default: 0
+    },
+    filter: {
+      type: String,
+      default: ''
+    }
   },
   methods: {
 
