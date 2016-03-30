@@ -60,7 +60,7 @@
       .inner
         circle-progress(:progress="download.totalLength === '0' ? 0 : download.completedLength / download.totalLength", :status="download.status")
         .right-part
-          .name {{util.getFileName(download.files[0].path)}}
+          .name {{download.bittorrent ? download.bittorrent.info.name : util.getFileName(download.files[0].path)}}
           .status
             span.size
               | {{util.bytesToSize(download.totalLength)}}

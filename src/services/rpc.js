@@ -30,8 +30,8 @@ export function call (server, name, params = []) {
 export function multicall (server, calls) {
   if (!isArray(calls)) calls = map(calls, (value, key) => ({ methodName: key, params: value || [] }))
   if (server.secret) {
-    calls = calls.forEach(function (call) {
-      call.params = call.params.unshift(`token:${server.secret}`)
+    calls.forEach(function (call) {
+      call.params.unshift(`token:${server.secret}`)
     })
   }
   var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/jsonrpc`
