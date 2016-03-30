@@ -84,6 +84,7 @@ export default {
   methods: {
     reset: function () {
       this.uris = ''
+      this.torrents = []
     },
     addDownloads: function () {
       if (!this.allowDownload) return

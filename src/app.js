@@ -42,7 +42,7 @@ export default {
     downloadList: function () {
       // sort by gid
       var list = this.originalDownloadList.slice(0).sort(function (a, b) {
-        return parseInt(b.gid, 16) - parseInt(a.gid, 16)
+        return b.gid > a.gid ? 1 : -1
       })
       // filter
       if (this.filter) {
