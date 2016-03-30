@@ -22,6 +22,17 @@
   background: white
   overflow: hidden
   box-shadow: rgba(0, 0, 0, 0.12) 0 0 10px 2px
+  position: relative
+  .close
+    position: absolute
+    right: 0
+    top: 0
+    width: 48px
+    height: 38px
+    background: url(icon_close.svg) center 20px no-repeat
+    cursor: pointer
+    &:hover
+      background-image: url(icon_close_dark.svg)
   .container
     padding: 0 20px
   .header
@@ -34,17 +45,6 @@
       line-height: 24px
       font-size: 16px
       font-weight: 400
-    .close
-      position: absolute
-      right: 0
-      top: 50%
-      margin-top: -19px
-      width: 48px
-      height: 38px
-      background: url(icon_close.svg) center 20px no-repeat
-      cursor: pointer
-      &:hover
-        background-image: url(icon_close_dark.svg)
   .content
     padding: 12px 0
     .form-group

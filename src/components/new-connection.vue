@@ -9,10 +9,9 @@
 </style>
 
 <template lang="jade">
-modal.new-connection(:showing.sync="showing")
+modal.new-connection(:showing.sync="showing", :closeable="false")
   .header
     .container NEW CONNECTION
-    .close(@click="showing = false")
   .content
     .container
       .form-group
