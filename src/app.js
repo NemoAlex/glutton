@@ -17,12 +17,7 @@ export default {
     return {
       originalDownloadList: [],
       selectedGids: [],
-      server: {
-        host: 'localhost',
-        port: 6800,
-        secret: '',
-        ssl: false
-      },
+      server: Object.assign({}, config.defaultServer),
       serverHistory: [
       ],
       torrents: [],
@@ -174,7 +169,10 @@ export default {
     getServerHistory: function () {
       var history = window.localStorage.getItem('glutton_server_history')
       if (!history) return
-      this.serverHistory = JSON.parse(history)
+      history = JSON.parse(history).map(function (server) {
+        return Object.assign({}, config.defaultServer, server)
+      })
+      this.serverHistory = history
     },
     dropFiles: function (e) {
       let files = e.dataTransfer.files

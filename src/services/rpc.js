@@ -12,7 +12,7 @@ function checkStatus (response) {
 
 export function call (server, name, params = []) {
   if (server.secret) params.unshift(`token:${server.secret}`)
-  var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/jsonrpc`
+  var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/${server.extension}`
   return fetch(uri, {
     method: 'post',
     body: JSON.stringify({
@@ -34,7 +34,7 @@ export function multicall (server, calls) {
       call.params.unshift(`token:${server.secret}`)
     })
   }
-  var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/jsonrpc`
+  var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/${server.extension}`
   return fetch(uri, {
     method: 'post',
     body: JSON.stringify({

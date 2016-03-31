@@ -3,6 +3,34 @@
 @import "../assets/variables.sass"
 .new-connection
   .content
+    .host
+      position: relative
+      .input-with-dropdown
+        vertical-align: top
+        margin-right: 40px
+        &.short
+          width: 70%
+          display: inline-block
+          margin-right: 0
+      .show-extension
+        position: absolute
+        right: 0
+        bottom: 0
+        width: 30px
+        height: 32px
+        line-height: 32px
+      .extension
+        vertical-align: top
+        width: 30%
+        display: inline-block
+        white-space: nowrap
+        span
+          display: inline-block
+          width: 20%
+          padding: 0 10px
+        input
+          display: inline-block
+          width: 80%
     .label
       margin-bottom: 5px
       font-weight: 400
@@ -14,9 +42,13 @@ modal.new-connection(:showing.sync="showing", :closeable="false")
     .container NEW CONNECTION
   .content
     .container
-      .form-group
+      .form-group.host
         .label HOST
-        input-with-dropdown(:list.sync="history", :value.sync="server.host", :ssl.sync="server.ssl")
+        input-with-dropdown(:list.sync="history", :value.sync="server.host", :ssl.sync="server.ssl", :class="{'short': extensionShowing}")
+        .extension(v-show="extensionShowing")
+          span /
+          input(v-model="server.extension", placeholder="jsonrpc")
+        btn.show-extension(passive, @click="extensionShowing = true", v-show="!extensionShowing") ...
       .form-group
         .label PORT
         input(v-model="server.port", spellcheck="false", type="number", number)
@@ -34,6 +66,11 @@ import modal from './modal.vue'
 import inputWithDropdown from './input-with-dropdown.vue'
 
 export default {
+  data () {
+    return {
+      extensionShowing: false
+    }
+  },
   props: {
     showing: {
       type: Boolean,

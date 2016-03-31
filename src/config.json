@@ -1,3 +1,10 @@
 {
-  "fetchTime": 2000
+  "fetchTime": 2000,
+  "defaultServer": {
+    "host": "localhost",
+    "port": 6800,
+    "secret": "",
+    "extension": "jsonrpc",
+    "ssl": false
+  }
 }
