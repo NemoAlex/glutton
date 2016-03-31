@@ -4,7 +4,7 @@
   "description": "A aria2 web client.",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot --config build/webpack.dev.config.js",
+    "dev": "webpack-dev-server --inline --hot --config build/webpack.dev.config.js --host 0.0.0.0",
     "build": "webpack --progress --hide-modules --config build/webpack.prod.config.js",
     "test": "karma start build/karma.conf.js"
   },
