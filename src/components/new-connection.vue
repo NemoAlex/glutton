@@ -19,6 +19,11 @@
         width: 30px
         height: 32px
         line-height: 32px
+        background: $color-white
+        color: $color-text
+        border: 1px solid $color-grey-4
+        &:hover
+          border-color: #DDD
       .extension
         vertical-align: top
         width: 30%
