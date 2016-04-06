@@ -2,6 +2,10 @@
 <style lang="sass?indentedSyntax" src="./assets/global.sass"></style>
 <style scoped lang="sass?indentedSyntax">
 @import "./assets/variables.sass"
+.login
+  background: #979797
+  width: 100%
+  height: 100%
 .main
   height: 100%
   background: $color-grey-1
