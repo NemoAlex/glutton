@@ -11,6 +11,18 @@
   background: $color-grey-1
   &.drag-over
     opacity: .6
+  .header-els
+    position: fixed
+    left: 0
+    top: 0
+    width: 100%
+    z-index: 1
+  .content
+    height: 100%
+    padding: 88px 0 30px
+    .scroll-holder
+      height: 100%
+      overflow-y: auto
 </style>
 
 <template lang="jade">
@@ -21,7 +33,8 @@
     header-bar
     status-bar(:download-speed="downloadSpeed", :upload-speed="uploadSpeed", :filter.sync="filter")
   .content
-    download-list(:list="downloadList", :selected.sync="selectedGids")
+    .scroll-holder(@click="selectedGids = []")
+      download-list(:list="downloadList", :selected.sync="selectedGids", @click.stop="")
   bottom-bar
   new-download(:showing.sync="newDownloadModalShowing", :destination="defaultDestination", :torrents.sync="torrents")
 </template>
