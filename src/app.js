@@ -100,7 +100,6 @@ export default {
       .then(() => this.fetch())
     },
     connectToServer: function (server) {
-      server = Object.assign({}, server)
       this.connectToServer(server)
       .catch(err => {
         alert(err.message)
@@ -115,7 +114,7 @@ export default {
     this.getServerHistory()
     var server = this.serverHistory[0]
     if (server) {
-      this.server = server
+      this.server = Object.assign({}, server)
       this.connectToServer(server).catch(function (err) {
         return err
       })
@@ -146,7 +145,7 @@ export default {
       .then(() => {
         // Login successed
         this.loggedIn = true
-        this.server = server
+        this.server = Object.assign({}, server)
         // Get options
         this.getOptions()
         // Handle the history
