@@ -96,13 +96,14 @@ export default {
         }
       })
       rpc.multicall(this.server, args)
+      .catch(err => alert(err.message))
       .then(() => this.fetch())
     },
     connectToServer: function (server) {
       server = Object.assign({}, server)
       this.connectToServer(server)
       .catch(err => {
-        alert(err)
+        alert(err.message)
       })
     },
     disconnect: function () {

@@ -1,15 +1,5 @@
 import { map, isArray } from 'lodash'
 
-function checkStatus (response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response
-  } else {
-    var error = new Error(response.statusText)
-    error.response = response
-    throw error
-  }
-}
-
 export function call (server, name, params = []) {
   if (server.secret) params.unshift(`token:${server.secret}`)
   var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/${server.extension}`
@@ -22,9 +12,15 @@ export function call (server, name, params = []) {
       'params': params || []
     })
   })
-  .then(checkStatus)
+  .catch(function () {
+    throw new Error('Can not connect to the server.')
+  })
   .then(res => res.json())
   .then(res => res.result)
+  .then(function (result) {
+    if (result.code) throw new Error(result.message)
+    return result
+  })
 }
 
 export function multicall (server, calls) {
@@ -44,7 +40,15 @@ export function multicall (server, calls) {
       'params': [calls]
     })
   })
-  .then(checkStatus)
+  .catch(function () {
+    throw new Error('Can not connect to the server.')
+  })
   .then(res => res.json())
   .then(res => res.result.map(value => value[0]))
+  .then(function (results) {
+    results.forEach(result => {
+      if (result.code) throw new Error(result.message)
+    })
+    return results
+  })
 }
