@@ -2,7 +2,7 @@
 
 A ~~next~~ current generation web client for [aria2](http://aria2.github.io/).
 
-[Live Demo](http://glutton.nemo.rocks/)
+[Live Demo](http://nemoalex.github.io/glutton/)
 
 ## Basic Usage
 
