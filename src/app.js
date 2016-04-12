@@ -174,6 +174,13 @@ export default {
       })
       this.serverHistory = history
     },
+    onDragOver: function (e) {
+      if (!e.dataTransfer) return
+      this.dragOver = true
+      // Deal with Chrome Downloads Bar
+      var b = e.dataTransfer.effectAllowed
+      e.dataTransfer.dropEffect = (b === 'move' || b === 'linkMove') ? 'move' : 'copy'
+    },
     dropFiles: function (e) {
       let files = e.dataTransfer.files
       for (var i = 0; i < files.length; i++) {

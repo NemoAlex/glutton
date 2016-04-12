@@ -28,7 +28,7 @@
 <template lang="jade">
 .login(v-show="!loggedIn")
   new-connection(:history.sync="serverHistory", :server.sync="server")
-.main(v-if="loggedIn", @drop.stop.prevent="dropFiles", @dragover.stop.prevent="dragOver = true", @dragenter="dragOver = true", @dragleave="dragOver = false", @drop="dragOver = false", :class="{ 'drag-over': dragOver }")
+.main(v-if="loggedIn", @drop.stop.prevent="dropFiles", @dragover.stop.prevent="onDragOver", @dragenter="dragOver = true", @dragleave="dragOver = false", @drop="dragOver = false", :class="{ 'drag-over': dragOver }")
   .header-els
     header-bar
     status-bar(:download-speed="downloadSpeed", :upload-speed="uploadSpeed", :filter.sync="filter")
