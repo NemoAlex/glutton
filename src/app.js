@@ -9,7 +9,7 @@ import NewConnection from './components/new-connection.vue'
 // requirements
 import * as rpc from './services/rpc'
 import * as util from './services/util'
-import * as config from 'json!./config.json'
+import * as config from './config.json'
 import * as _ from 'lodash'
 
 export default {

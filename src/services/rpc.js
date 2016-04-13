@@ -3,7 +3,7 @@ import { map, isArray } from 'lodash'
 export function call (server, name, params = []) {
   if (server.secret) params.unshift(`token:${server.secret}`)
   var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/${server.extension}`
-  return fetch(uri, {
+  return window.fetch(uri, {
     method: 'post',
     body: JSON.stringify({
       'jsonrpc': '2.0',
@@ -31,7 +31,7 @@ export function multicall (server, calls) {
     })
   }
   var uri = `http${server.ssl ? 's' : ''}://${server.host}:${server.port}/${server.extension}`
-  return fetch(uri, {
+  return window.fetch(uri, {
     method: 'post',
     body: JSON.stringify({
       'jsonrpc': '2.0',
