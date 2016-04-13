@@ -8,7 +8,7 @@ A ~~next~~ current generation web client for [aria2](http://aria2.github.io/).
 
 Download the release package, open `index.html` in your web browser.
 
-For production, only `index.html` and the `dist` folder are required.
+For production use, only files in `dist` folder are required.
 
 ## Browser Support
 
