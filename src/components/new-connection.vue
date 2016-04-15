@@ -1,5 +1,5 @@
-<style src="../assets/modal.sass" lang="sass?indentedSyntax"></style>
-<style scoped lang="sass?indentedSyntax">
+<style src="../assets/modal.sass" lang="sass"></style>
+<style scoped lang="sass">
 @import "../assets/variables.sass"
 .new-connection
   .content

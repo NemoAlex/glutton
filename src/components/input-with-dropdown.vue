@@ -1,4 +1,4 @@
-<style scoped lang="sass?indentedSyntax">
+<style scoped lang="sass">
 @import "../assets/variables.sass"
 .input-with-dropdown
   height: 32px

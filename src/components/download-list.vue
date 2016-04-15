@@ -1,4 +1,4 @@
-<style scoped lang="sass?indentedSyntax">
+<style scoped lang="sass">
 @import "../assets/variables.sass"
 .download-list
   user-select: none

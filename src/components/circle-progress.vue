@@ -1,4 +1,4 @@
-<style scoped lang="sass?indentedSyntax">
+<style scoped lang="sass">
 .circle-progress
   display: inline-block
   .progress

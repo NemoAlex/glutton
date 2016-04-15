@@ -1,4 +1,4 @@
-<style scoped lang="sass?indentedSyntax">
+<style scoped lang="sass">
 @import "../assets/variables.sass"
 .status-bar
   height: 32px

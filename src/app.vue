@@ -1,6 +1,6 @@
 <style src="normalize.css"></style>
-<style lang="sass?indentedSyntax" src="./assets/global.sass"></style>
-<style scoped lang="sass?indentedSyntax">
+<style lang="sass" src="./assets/global.sass"></style>
+<style scoped lang="sass">
 @import "./assets/variables.sass"
 .login
   background: #979797
