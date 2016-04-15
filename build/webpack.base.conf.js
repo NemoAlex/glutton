@@ -1,6 +1,7 @@
 var path = require('path')
 var cssLoaders = require('./css-loaders')
 var projectRoot = path.resolve(__dirname, '../')
+var webpack = require('webpack')
 
 module.exports = {
   entry: {
@@ -21,6 +22,11 @@ module.exports = {
   resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+       'window.fetch': 'exports?self.fetch!whatwg-fetch'
+    })
+  ],
   module: {
     preLoaders: [
       {
