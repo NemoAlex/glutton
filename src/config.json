@@ -6,5 +6,8 @@
     "secret": "",
     "extension": "jsonrpc",
     "ssl": false
+  },
+  "shooterFake": {
+    "token": "G7rHLEkboZe7yZ6DQCd6PZg4NVsAfGEV"
   }
 }

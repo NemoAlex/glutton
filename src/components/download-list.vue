@@ -51,6 +51,10 @@
               color: $color-primary
               &.upload
                 background-image: url(../assets/icon-upload.svg)
+          .search-subtitle
+            position: absolute
+            right: 10px
+            top: 10px
 </style>
 
 <template lang="jade">
@@ -60,7 +64,8 @@
       .inner
         circle-progress(:progress="download.totalLength === '0' ? 0 : download.completedLength / download.totalLength", :status="download.status")
         .right-part
-          .name {{download.bittorrent ? download.bittorrent.info.name : util.getFileName(download.files[0].path)}}
+          .name
+            | {{download.bittorrent ? download.bittorrent.info.name : util.getFileName(download.files[0].path)}}
           .status
             span.size
               | {{util.bytesToSize(download.totalLength)}}
@@ -70,6 +75,7 @@
               | {{util.bytesToSize(download.uploadSpeed)}}/s
             span.eta(v-if="download.status === 'active' && download.downloadSpeed !== '0'")
               | ETA: {{getETA(download)}}
+          btn.search-subtitle(@click="searchSubtitle(download)", passive)  Search Subtitle
 
 </template>
 
@@ -77,6 +83,7 @@
 import CircleProgress from './circle-progress.vue'
 import * as util from '../services/util'
 import * as moment from 'moment'
+import btn from './btn.vue'
 
 export default {
   data () {
@@ -115,10 +122,15 @@ export default {
     },
     clearSelected: function (e) {
       this.selected = []
+    },
+    searchSubtitle: function (download) {
+      var name = download.bittorrent ? download.bittorrent.info.name : util.getFileName(download.files[0].path)
+      this.$dispatch('searchSubtitle', name)
     }
   },
   components: {
-    CircleProgress
+    CircleProgress,
+    btn
   }
 }
 </script>

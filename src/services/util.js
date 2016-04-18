@@ -17,3 +17,24 @@ export function addZeros (num, length, zero = '0') {
   var str = String(num)
   return new Array(length - str.length + 1).join(zero) + str
 }
+
+export function findDiff (names) {
+  let name = names[0]
+  let common = ''
+  for (var i = 0; i < name.length; i++) {
+    let test = `${common}${name[i]}`
+    let success = true
+    for (let t = 0; t < names.length; t++) {
+      if (names[t].indexOf(test) !== 0) {
+        success = false
+        break
+      }
+    }
+    if (!success) break
+    common = test
+  }
+  return {
+    common,
+    diff: names.map(n => n.substr(common.length))
+  }
+}

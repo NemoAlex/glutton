@@ -5,12 +5,14 @@ import BottomBar from './components/bottom-bar.vue'
 import DownloadList from './components/download-list.vue'
 import NewDownload from './components/new-download.vue'
 import NewConnection from './components/new-connection.vue'
+import Subtitle from './components/subtitle.vue'
 
 // requirements
 import * as rpc from './services/rpc'
 import * as util from './services/util'
 import * as config from './config.json'
 import * as _ from 'lodash'
+import * as subtitleService from './services/subtitle.shooter_fake'
 
 export default {
   data () {
@@ -27,7 +29,9 @@ export default {
       defaultDestination: '',
       filter: '',
       loggedIn: false,
-      dragOver: false
+      dragOver: false,
+      subtitleModalShowing: false,
+      subtitles: []
     }
   },
   computed: {
@@ -55,7 +59,8 @@ export default {
     StatusBar,
     BottomBar,
     NewDownload,
-    NewConnection
+    NewConnection,
+    Subtitle
   },
   events: {
     startSelectedDownloads: function () {
@@ -108,6 +113,14 @@ export default {
     disconnect: function () {
       // this.server = {}
       this.loggedIn = false
+    },
+    searchSubtitle: function (name) {
+      this.subtitles = []
+      subtitleService.search(name)
+      .then(subs => {
+        this.subtitles = subs
+        this.subtitleModalShowing = true
+      })
     }
   },
   ready: function () {
