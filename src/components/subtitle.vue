@@ -24,7 +24,7 @@ modal.subtitle-modal(:showing.sync="showing")
   .content
     .container
       .subtitles(v-if="!searching && subtitles.length")
-        subtitle-line(v-for="subtitle in subtitles", :subtitle.sync="subtitle")
+        subtitle-line(v-for="subtitle in subtitles", :subtitle.sync="subtitle", :file-path="filePath")
       .loading(v-if="searching") Searching...
       .not-found(v-if="!searching && !subtitles.length") No results found.
       .vender Provided by
@@ -35,6 +35,7 @@ modal.subtitle-modal(:showing.sync="showing")
 import modal from './modal.vue'
 import SubtitleLine from './subtitle-line.vue'
 import * as subtitleService from '../services/subtitle.shooter_fake'
+import * as util from '../services/util'
 
 export default {
   data () {
@@ -43,7 +44,8 @@ export default {
       serviceName: subtitleService.name,
       showing: false,
       subtitles: [],
-      searching: false
+      searching: false,
+      filePath: ''
     }
   },
   components: {
@@ -60,8 +62,9 @@ export default {
     }
   },
   events: {
-    searchSubtitle: function (name) {
-      this.name = name
+    searchSubtitle: function (download) {
+      this.name = download.bittorrent ? download.bittorrent.info.name : util.getFileName(download.files[0].path)
+      this.filePath = util.getFilePath(download.files[0].path)
       this.subtitles = []
       this.searching = true
       this.showing = true
@@ -70,6 +73,9 @@ export default {
         this.subtitles = subs
         this.searching = false
       })
+    },
+    closeWindow: function () {
+      this.showing = false
     }
   }
 }

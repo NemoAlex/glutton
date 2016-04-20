@@ -2,6 +2,10 @@ export function getFileName (path) {
   return path.replace(/^.*[\\\/]/, '')
 }
 
+export function getFilePath (path) {
+  return path.match(/^.*[\\\/]/)[0]
+}
+
 export function bytesToSize (bytes, keepDigits) {
   bytes = Number(bytes)
   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
@@ -37,4 +41,8 @@ export function findDiff (names) {
     common,
     diff: names.map(n => n.substr(common.length))
   }
+}
+
+export function generateGid (i = 0) {
+  return addZeros(Date.now().toString(16), 14, 'f') + addZeros(i.toString(16), 2)
 }

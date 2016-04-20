@@ -38,28 +38,42 @@
     margin-top: 2px
     .file
       display: inline-block
-      padding: 0 6px
       height: 30px
-      line-height: 30px
-      background: $color-primary
       margin: 6px 10px 0 0
+      border-radius: 3px
+      overflow: hidden
       color: white
-      border-radius: 4px
-      text-decoration: none
-      &:hover
-        background-color: $color-hover
-      &:active
-        background-color: $color-active
+      line-height: 30px
       &.all
-        padding-left: 22px
-        background-image: url(../assets/icon_file_zip.svg)
-        background-position: 6px center
-        background-repeat: no-repeat
-        background-color: $color-blue
+        padding-left: 28px
+        padding-right: 8px
+        background: url(../assets/icon_file_zip.svg) 10px center no-repeat $color-blue
         &:hover
           background-color: $color-blue-dim
         &:active
           background-color: $color-blue-dark
+      .btn-s
+        display: inline-block
+        height: 30px
+        vertical-align: top
+        line-height: 30px
+        color: white
+        background-color: $color-primary
+        cursor: pointer
+        &.to-server
+          padding: 0 8px 0 28px
+          background-image: url(../assets/icon_cloud.svg)
+          background-position: 8px center
+          background-repeat: no-repeat
+        &.to-client
+          display: inline-block
+          width: 28px
+          background-image: url(../assets/icon_download.svg)
+          background-position: 8px center
+          background-repeat: no-repeat
+          background-color: $color-hover
+        &:hover
+          background-color: $color-active
   .loading
     margin-top: 10px
 </style>
@@ -72,7 +86,9 @@
     .desc(v-show="subtitle.lang.desc") {{subtitle.lang.desc}}
     img.icon(src="../assets/icon_caret.svg", :class="{extended: extended}")
   .files.group(v-show="extended && !loading")
-    a.file(v-for="(i, file) in files", :href="file.url", target="_blank") {{displayNames.diff[i]}}
+    .file(v-for="(i, file) in files", )
+      .btn-s.to-server(title="Download to Server", @click="downloadSubtitleOnServer(file)") {{displayNames.diff[i]}}
+      a.btn-s.to-client(title="Download to Browser", :href="file.url", target="_blank")
     br
     a.file.all(:href="details.url", target="_blank") Download as .zip
   .loading(v-show="loading") Loading...
@@ -91,7 +107,8 @@ export default {
     }
   },
   props: {
-    subtitle: Object
+    subtitle: Object,
+    filePath: String
   },
   methods: {
     showDetail: function () {
@@ -103,6 +120,15 @@ export default {
         this.loading = false
         this.details = result
       })
+    },
+    downloadSubtitleOnServer: function (file) {
+      this.$dispatch('addUriDownloads', {
+        uris: [file.url],
+        options: {
+          'dir': this.filePath
+        }
+      })
+      this.$dispatch('closeWindow')
     }
   },
   computed: {

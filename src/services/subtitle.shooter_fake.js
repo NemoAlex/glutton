@@ -3,7 +3,7 @@ import * as config from '../config.json'
 export var name = '射手网 (伪)'
 
 export function search (name) {
-  return window.fetch(`http://api.assrt.net/v1/sub/search?token=${config.shooterFake.token}&q=${name}&cnt=5`)
+  return window.fetch(`http://api.assrt.net/v1/sub/search?token=${config.shooterFake.token}&q=${name}&cnt=10`)
   .then(res => res.json())
   .then(res => {
     if (res.sub.subs.length) return res.sub.subs

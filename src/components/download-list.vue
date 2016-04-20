@@ -16,6 +16,7 @@
       height: 100%
       .inner
         padding-left: 29px
+        padding-right: 34px
         position: relative
         height: 100%
         .circle-progress
@@ -25,7 +26,6 @@
         .right-part
           height: 100%
           position: relative
-          overflow: hidden
           .name
             position: absolute
             left: 0
@@ -53,8 +53,13 @@
                 background-image: url(../assets/icon-upload.svg)
           .search-subtitle
             position: absolute
-            right: 10px
-            top: 10px
+            right: -34px
+            top: 13px
+            height: 24px
+            width: 24px
+            line-height: 24px
+            padding: 0
+            text-align: center
 </style>
 
 <template lang="jade">
@@ -124,8 +129,7 @@ export default {
       this.selected = []
     },
     searchSubtitle: function (download) {
-      var name = download.bittorrent ? download.bittorrent.info.name : util.getFileName(download.files[0].path)
-      this.$dispatch('searchSubtitle', name)
+      this.$dispatch('searchSubtitle', download)
     }
   },
   components: {

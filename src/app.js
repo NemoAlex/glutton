@@ -80,10 +80,9 @@ export default {
     },
     addUriDownloads: function (download) {
       var args = download.uris.map((uri, i) => {
-        let gid = util.addZeros(Date.now().toString(16), 14, 'f') + util.addZeros(i.toString(16), 2)
         return {
           methodName: 'aria2.addUri',
-          params: [[uri], Object.assign({}, download.options, { gid: gid })]
+          params: [[uri], Object.assign({}, download.options, { gid: util.generateGid(i) })]
         }
       })
       rpc.multicall(this.server, args)
@@ -91,10 +90,9 @@ export default {
     },
     addTorrentDownloads: function (download) {
       var args = download.torrents.map((torrent, i) => {
-        let gid = util.addZeros(Date.now().toString(16), 14, 'f') + util.addZeros(i.toString(16), 2)
         return {
           methodName: 'aria2.addTorrent',
-          params: [torrent.base64, [], Object.assign({}, download.options, { gid: gid })]
+          params: [torrent.base64, [], Object.assign({}, download.options, { gid: util.generateGid(i) })]
         }
       })
       rpc.multicall(this.server, args)
@@ -111,8 +109,8 @@ export default {
       // this.server = {}
       this.loggedIn = false
     },
-    searchSubtitle: function (name) {
-      this.$broadcast('searchSubtitle', name)
+    searchSubtitle: function (download) {
+      this.$broadcast('searchSubtitle', download)
     }
   },
   ready: function () {
