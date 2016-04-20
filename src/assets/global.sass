@@ -11,6 +11,13 @@ body
   font-weight: 300
   height: 100%
   color: $color-text
+a
+  color: $color-primary
+  text-decoration: none
+  &:hover
+    color: $color-hover
+  &:active
+    color: $color-active
 .group:after
   content: ""
   display: table
@@ -33,6 +40,8 @@ body
   border-radius: 4px
   cursor: pointer
   user-select: none
+  &:hover
+    color: white
   &.with-icon
     padding-left: 34px
   i

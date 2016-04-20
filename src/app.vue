@@ -36,7 +36,7 @@
     .scroll-holder(@click="selectedGids = []")
       download-list(:list="downloadList", :selected.sync="selectedGids", @click.stop="")
   bottom-bar
-  subtitle(:showing.sync="subtitleModalShowing", :subtitles.sync="subtitles")
+  subtitle
   new-download(:showing.sync="newDownloadModalShowing", :destination="defaultDestination", :torrents.sync="torrents")
 </template>
 

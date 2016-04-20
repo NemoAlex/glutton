@@ -75,7 +75,7 @@
               | {{util.bytesToSize(download.uploadSpeed)}}/s
             span.eta(v-if="download.status === 'active' && download.downloadSpeed !== '0'")
               | ETA: {{getETA(download)}}
-          btn.search-subtitle(@click="searchSubtitle(download)", passive)  Search Subtitle
+          btn.search-subtitle(@click="searchSubtitle(download)", passive, title="Search Subtitles") S
 
 </template>
 

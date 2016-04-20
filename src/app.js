@@ -12,7 +12,6 @@ import * as rpc from './services/rpc'
 import * as util from './services/util'
 import * as config from './config.json'
 import * as _ from 'lodash'
-import * as subtitleService from './services/subtitle.shooter_fake'
 
 export default {
   data () {
@@ -29,9 +28,7 @@ export default {
       defaultDestination: '',
       filter: '',
       loggedIn: false,
-      dragOver: false,
-      subtitleModalShowing: false,
-      subtitles: []
+      dragOver: false
     }
   },
   computed: {
@@ -115,12 +112,7 @@ export default {
       this.loggedIn = false
     },
     searchSubtitle: function (name) {
-      this.subtitles = []
-      subtitleService.search(name)
-      .then(subs => {
-        this.subtitles = subs
-        this.subtitleModalShowing = true
-      })
+      this.$broadcast('searchSubtitle', name)
     }
   },
   ready: function () {

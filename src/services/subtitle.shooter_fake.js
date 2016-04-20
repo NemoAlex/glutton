@@ -1,5 +1,7 @@
 import * as config from '../config.json'
 
+export var name = '射手网 (伪)'
+
 export function search (name) {
   return window.fetch(`http://api.assrt.net/v1/sub/search?token=${config.shooterFake.token}&q=${name}&cnt=5`)
   .then(res => res.json())
@@ -21,4 +23,8 @@ export function detail (id) {
   .then(res => {
     return res.sub.subs[0] || {}
   })
+}
+
+export function searchLink (name) {
+  return `http://assrt.net/sub/?searchword=${name}`
 }
