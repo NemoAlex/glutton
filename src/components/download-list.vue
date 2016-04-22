@@ -6,12 +6,21 @@
     height: 50px
     white-space: nowrap
     cursor: default
-    // border-bottom: 1px solid $color-white
     background: $color-white
+    position: relative
     &:nth-child(odd)
       background: white
     &.selected
-      background: $color-grey-4
+      &:after
+        content: ""
+        display: block
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+        background: rgba(0,0,0,.18)
+        z-index: 10
     .container
       height: 100%
       .inner
@@ -60,6 +69,7 @@
             line-height: 24px
             padding: 0
             text-align: center
+            z-index: 11
 </style>
 
 <template lang="jade">
@@ -80,7 +90,7 @@
               | {{util.bytesToSize(download.uploadSpeed)}}/s
             span.eta(v-if="download.status === 'active' && download.downloadSpeed !== '0'")
               | ETA: {{getETA(download)}}
-          btn.search-subtitle(@click="searchSubtitle(download)", passive, title="Search Subtitles") S
+          btn.search-subtitle(@mousedown.stop.prevent, @click="searchSubtitle(download)", passive, title="Search Subtitles") S
 
 </template>
 
