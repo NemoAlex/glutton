@@ -18,8 +18,11 @@
         left: 0
         top: 0
         width: 100%
-        height: 100%
-        background: rgba(0,0,0,.18)
+        height: 51px
+        background: rgba(43, 177, 37, 0.2)
+        border: 1px solid $color-dim
+        border-width: 1px 0
+        box-sizing: border-box
         z-index: 10
     .container
       height: 100%
