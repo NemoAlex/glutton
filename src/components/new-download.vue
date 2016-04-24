@@ -16,7 +16,7 @@
     .torrents-list
       overflow: auto
       white-space: nowrap
-      min-height: 100px
+      height: 100px
       .torrent
 
 </style>
