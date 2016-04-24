@@ -32,7 +32,7 @@ modal.subtitle-modal(:showing.sync="showing")
 </template>
 
 <script>
-import modal from './modal.vue'
+import Modal from './modal.vue'
 import SubtitleLine from './subtitle-line.vue'
 import * as subtitleService from '../services/subtitle.shooter_fake'
 import * as util from '../services/util'
@@ -49,7 +49,7 @@ export default {
     }
   },
   components: {
-    modal,
+    Modal,
     SubtitleLine
   },
   computed: {

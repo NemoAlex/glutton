@@ -70,6 +70,9 @@
             padding: 0
             text-align: center
             z-index: 11
+            background-image: url(../assets/icon_search_subtitles.svg)
+            background-repeat: no-repeat
+            background-position: center
 </style>
 
 <template lang="jade">
@@ -90,7 +93,7 @@
               | {{util.bytesToSize(download.uploadSpeed)}}/s
             span.eta(v-if="download.status === 'active' && download.downloadSpeed !== '0'")
               | ETA: {{getETA(download)}}
-          btn.search-subtitle(@mousedown.stop.prevent, @click="searchSubtitle(download)", passive, title="Search Subtitles") S
+          btn.search-subtitle(v-if="$root.config.enableSubtitleFeatures", @mousedown.stop.prevent="", @click="searchSubtitle(download)", passive, title="Search Subtitles")
 
 </template>
 
@@ -98,7 +101,7 @@
 import CircleProgress from './circle-progress.vue'
 import * as util from '../services/util'
 import * as moment from 'moment'
-import btn from './btn.vue'
+import Btn from './btn.vue'
 
 export default {
   data () {
@@ -144,7 +147,7 @@ export default {
   },
   components: {
     CircleProgress,
-    btn
+    Btn
   }
 }
 </script>

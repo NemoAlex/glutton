@@ -6,11 +6,12 @@ import DownloadList from './components/download-list.vue'
 import NewDownload from './components/new-download.vue'
 import NewConnection from './components/new-connection.vue'
 import Subtitle from './components/subtitle.vue'
+import Settings from './components/settings.vue'
 
 // requirements
 import * as rpc from './services/rpc'
 import * as util from './services/util'
-import * as config from './config.json'
+import * as defaultConfig from './config.json'
 import * as _ from 'lodash'
 
 export default {
@@ -18,17 +19,19 @@ export default {
     return {
       originalDownloadList: [],
       selectedGids: [],
-      server: Object.assign({}, config.defaultServer),
+      server: Object.assign({}, defaultConfig.defaultServer),
       serverHistory: [
       ],
       torrents: [],
       downloadSpeed: 0,
       uploadSpeed: 0,
       newDownloadModalShowing: false,
+      settingsWindowShowing: false,
       defaultDestination: '',
       filter: '',
       loggedIn: false,
-      dragOver: false
+      dragOver: false,
+      fetchTimer: {}
     }
   },
   computed: {
@@ -57,7 +60,8 @@ export default {
     BottomBar,
     NewDownload,
     NewConnection,
-    Subtitle
+    Subtitle,
+    Settings
   },
   events: {
     startSelectedDownloads: function () {
@@ -77,6 +81,9 @@ export default {
     },
     showNewDownloadModal: function () {
       this.newDownloadModalShowing = true
+    },
+    showSettings: function () {
+      this.settingsWindowShowing = true
     },
     addUriDownloads: function (download) {
       var args = download.uris.map((uri, i) => {
@@ -114,6 +121,7 @@ export default {
     }
   },
   ready: function () {
+    this.getStoredConfig()
     this.getServerHistory()
     var server = this.serverHistory[0]
     if (server) {
@@ -125,8 +133,9 @@ export default {
   },
   methods: {
     startFetching: function () {
+      clearTimeout(this.fetchTimer)
       this.fetch()
-      setInterval(this.fetch, config.fetchTime)
+      this.fetchTimer = setInterval(this.fetch, this.config.fetchTime)
     },
     fetch: function () {
       if (!this.loggedIn) return
@@ -172,10 +181,15 @@ export default {
     getServerHistory: function () {
       var history = window.localStorage.getItem('glutton_server_history')
       if (!history) return
-      history = JSON.parse(history).map(function (server) {
-        return Object.assign({}, config.defaultServer, server)
+      history = JSON.parse(history).map(server => {
+        return Object.assign({}, this.config.defaultServer, server)
       })
       this.serverHistory = history
+    },
+    getStoredConfig: function () {
+      var storedConfig = window.localStorage.getItem('glutton_config')
+      storedConfig = JSON.parse(storedConfig || '{}')
+      this.config = Object.assign({}, defaultConfig, storedConfig)
     },
     onDragOver: function (e) {
       if (!e.dataTransfer) return
@@ -207,9 +221,23 @@ export default {
     'serverHistory': function (value) {
       window.localStorage.setItem('glutton_server_history', JSON.stringify(value))
     },
+    'config': {
+      handler: function (config) {
+        var diff = _.pickBy(config, (value, key) => {
+          return !_.isEqual(value, defaultConfig[key])
+        })
+        window.localStorage.setItem('glutton_config', JSON.stringify(diff))
+      },
+      deep: true
+    },
+    'config.fetchTime': function (value) {
+      if (value < 100) return
+      this.startFetching()
+    },
     'downloadSpeed': function (value) {
       if (value === '0') document.title = 'Glutton'
       else document.title = '↓ ' + util.bytesToSize(value) + '/s - Glutton'
     }
-  }
+  },
+  props: ['config']
 }

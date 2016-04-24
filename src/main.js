@@ -10,7 +10,8 @@ VueTouch.registerCustomEvent('doubletap', {
 })
 
 /* eslint-disable no-new */
-new Vue({
+window.app = new Vue({
+  data: { config: {} },
   el: 'body',
   components: { App }
 })

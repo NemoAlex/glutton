@@ -89,21 +89,8 @@ a
     background-color: $color-active
   &.no-title
     padding-right: 2px
-textarea
-  background: white
-  border: 1px solid $color-grey-4
-  box-shadow: 0 0 16px 0 rgba(0,0,0,0.04)
-  border-radius: 2px
-  padding: 6px 8px
-  resize: none
-  outline: none
-  width: 100%
-  color: inherit
-  -webkit-appearance: none
-  &:focus
-    border-color: #DDD
 
-input
+input:not([type='checkbox']), textarea
   border: 1px solid $color-grey-4
   border-radius: 2px
   box-shadow: 0 0 16px 0 rgba(0,0,0,0.04)
@@ -116,3 +103,6 @@ input
   -webkit-appearance: none
   &:focus
     border-color: #DDD
+textarea
+  padding: 6px 8px
+  resize: none

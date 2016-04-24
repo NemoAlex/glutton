@@ -20,11 +20,11 @@ header
 </template>
 
 <script>
-import btn from './btn.vue'
+import Btn from './btn.vue'
 
 export default {
   components: {
-    btn
+    Btn
   }
 }
 </script>

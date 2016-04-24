@@ -1,9 +1,8 @@
-import * as config from '../config.json'
-
 export var name = '射手网 (伪)'
 
 export function search (name) {
-  return window.fetch(`http://api.assrt.net/v1/sub/search?token=${config.shooterFake.token}&q=${name}&cnt=10`)
+  let token = window.app.config.subtitleServices.shooterFake.token
+  return window.fetch(`http://api.assrt.net/v1/sub/search?token=${token}&q=${name}&cnt=10`)
   .then(res => res.json())
   .then(res => {
     if (res.sub.subs.length) return res.sub.subs
@@ -18,7 +17,8 @@ export function search (name) {
 }
 
 export function detail (id) {
-  return window.fetch(`http://api.assrt.net/v1/sub/detail?token=${config.shooterFake.token}&id=${id}`)
+  let token = window.app.config.subtitleServices.shooterFake.token
+  return window.fetch(`http://api.assrt.net/v1/sub/detail?token=${token}&id=${id}`)
   .then(res => res.json())
   .then(res => {
     return res.sub.subs[0] || {}

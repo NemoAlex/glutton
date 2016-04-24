@@ -3,9 +3,6 @@
 @import "../assets/variables.sass"
 .new-download
   .content
-    .label
-      margin-bottom: 5px
-      font-weight: 400
     .uris
       height: 100px
       white-space: nowrap
@@ -51,8 +48,8 @@ modal.new-download(:showing.sync="showing")
 </template>
 
 <script>
-import btn from './btn.vue'
-import modal from './modal.vue'
+import Btn from './btn.vue'
+import Modal from './modal.vue'
 import {trim} from 'lodash'
 
 export default {
@@ -116,8 +113,8 @@ export default {
     }
   },
   components: {
-    btn,
-    modal
+    Btn,
+    Modal
   }
 }
 </script>

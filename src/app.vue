@@ -38,6 +38,7 @@
   bottom-bar
   subtitle
   new-download(:showing.sync="newDownloadModalShowing", :destination="defaultDestination", :torrents.sync="torrents")
+  settings(:showing.sync="settingsWindowShowing", :config.sync="config")
 </template>
 
 <script src="./app.js"></script>

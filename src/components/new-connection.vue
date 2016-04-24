@@ -36,9 +36,6 @@
         input
           display: inline-block
           width: 80%
-    .label
-      margin-bottom: 5px
-      font-weight: 400
 </style>
 
 <template lang="jade">
@@ -66,9 +63,9 @@ modal.new-connection(:showing.sync="showing", :closeable="false")
 </template>
 
 <script>
-import btn from './btn.vue'
-import modal from './modal.vue'
-import inputWithDropdown from './input-with-dropdown.vue'
+import Btn from './btn.vue'
+import Modal from './modal.vue'
+import InputWithDropdown from './input-with-dropdown.vue'
 
 export default {
   data () {
@@ -98,9 +95,9 @@ export default {
     }
   },
   components: {
-    btn,
-    modal,
-    inputWithDropdown
+    Btn,
+    Modal,
+    InputWithDropdown
   }
 }
 </script>

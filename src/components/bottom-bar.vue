@@ -7,7 +7,7 @@
   width: 100%
   height: 30px
   background: white
-  // border-top: 2px solid $color-grey-3
+  border-top: 1px solid $color-grey-3
   text-align: right
   .icon-btn
     width: 30px
@@ -34,7 +34,7 @@
 
 <template lang="jade">
 .bottom-bar
-  //- .icon-btn.settings
+  .icon-btn.settings(@click="showSettings")
   .icon-btn.disconnect(@click="disconnect")
 
 </template>
@@ -44,6 +44,9 @@ export default {
   methods: {
     disconnect: function () {
       this.$dispatch('disconnect')
+    },
+    showSettings: function () {
+      this.$dispatch('showSettings')
     }
   }
 }
