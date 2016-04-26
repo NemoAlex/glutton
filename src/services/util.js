@@ -1,3 +1,6 @@
+import * as defaultConfig from '../config.json'
+import * as _ from 'lodash'
+
 export function getFileName (path) {
   return path.replace(/^.*[\\\/]/, '')
 }
@@ -45,4 +48,24 @@ export function findDiff (names) {
 
 export function generateGid (i = 0) {
   return addZeros(Date.now().toString(16), 14, 'f') + addZeros(i.toString(16), 2)
+}
+
+export function getQueryParam (param) {
+  param = param.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]')
+  var regex = new RegExp('[\\?&]' + param + '=([^&#]*)')
+  var results = regex.exec(window.location.href)
+  if (!results) return null
+  else return window.decodeURIComponent(results[1])
+}
+
+export function parseServerString (s) {
+  /* eslint-disable no-unused-vars */
+  var [address, secret] = s.split('||')
+  var [url, ssl, host, port, extension] = address.match(/(\w+):\/\/([^\:|\/]+)(\:\d*)?(.*)/i)
+  ssl = ssl === 'https'
+  port = port ? port.replace(':', '') : null
+  extension = extension.replace('/', '')
+  var server = { ssl, host, port, extension, secret }
+  server = _.omitBy(server, val => !val && val !== false)
+  return Object.assign({}, defaultConfig.defaultServer, server)
 }

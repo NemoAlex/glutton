@@ -20,6 +20,29 @@ Since `--rpc-passwd` option will be deprecated in the future of aria2, Glutton d
 
 I suggest to use `--rpc-secret` instead, which support by aria2 1.18.4 or higher.
 
+## API
+
+Glutton accepts page parameters.
+
+### s
+
+Base64 encoded string, including server address and secret. Glutton will try to connect the server on startup.
+
+Format: `link||[secret]`
+
+Example:
+
+```javascript
+window.btoa('http://192.168.1.1:6800/jsonrpc||secret')
+// "aHR0cDovLzE5Mi4xNjguMS4xOjY4MDAvanNvbnJwY3x8c2VjcmV0"
+```
+
+Visit the link below, connect to the specific server:
+
+```
+http://nemoalex.github.io/glutton/?s=aHR0cDovLzE5Mi4xNjguMS4xOjY4MDAvanNvbnJwY3x8c2VjcmV0
+```
+
 ## Development
 
 In project folder:

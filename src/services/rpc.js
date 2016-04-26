@@ -16,11 +16,11 @@ export function call (server, name, params = []) {
     throw new Error('Can not connect to the server.')
   })
   .then(res => res.json())
-  .then(res => res.result)
-  .then(function (result) {
-    if (result.code) throw new Error(result.message)
-    return result
+  .then(function (res) {
+    if (res.error) throw new Error(res.error.message)
+    return res
   })
+  .then(res => res.result)
 }
 
 export function multicall (server, calls) {
@@ -44,6 +44,10 @@ export function multicall (server, calls) {
     throw new Error('Can not connect to the server.')
   })
   .then(res => res.json())
+  .then(function (res) {
+    if (res.error) throw new Error(res.error.message)
+    return res
+  })
   .then(res => res.result.map(value => value[0]))
   .then(function (results) {
     results.forEach(result => {

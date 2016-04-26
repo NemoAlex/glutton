@@ -123,13 +123,15 @@ export default {
   ready: function () {
     this.getStoredConfig()
     this.getServerHistory()
-    var server = this.serverHistory[0]
+
+    var server = this.checkServerString() || this.serverHistory[0]
     if (server) {
       this.server = Object.assign({}, server)
       this.connectToServer(server).catch(function (err) {
         return err
       })
     }
+    this.hideQueryParam()
   },
   methods: {
     startFetching: function () {
@@ -170,6 +172,16 @@ export default {
     },
     testConnection: function (server) {
       return rpc.call(server, 'aria2.getGlobalOption')
+    },
+    checkServerString: function () {
+      var serverString = util.getQueryParam('s')
+      if (!serverString) return null
+      serverString = window.atob(serverString)
+      var server = util.parseServerString(serverString)
+      return server
+    },
+    hideQueryParam: function () {
+      window.history.replaceState(null,null,'./')
     },
     getOptions: function () {
       return rpc.call(this.server, 'aria2.getGlobalOption')
