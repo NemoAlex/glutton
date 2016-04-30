@@ -1,4 +1,4 @@
-<style scoped lang="sass">
+<style lang="sass">
 @import "../assets/variables.sass"
 .download-list
   user-select: none
@@ -80,38 +80,14 @@
 
 <template lang="jade">
 .download-list(@click.self="clearSelected")
-  .download(v-for="download in list", track-by="gid", :class="{selected: ~selected.indexOf(download.gid)}", @mousedown="select(download.gid, $event)", v-touch:doubletap="startOrPause(download)")
-    .container
-      .inner
-        circle-progress(:progress="download.totalLength === '0' ? 0 : download.completedLength / download.totalLength", :status="download.status")
-        .right-part
-          .name
-            | {{download.bittorrent ? download.bittorrent.info.name : util.getFileName(download.files[0].path)}}
-          .status
-            span.size
-              | {{util.bytesToSize(download.totalLength)}}
-            span.speed(v-if="download.status == 'active' && download.downloadSpeed !== '0'")
-              | {{util.bytesToSize(download.downloadSpeed)}}/s
-            span.speed.upload(v-if="download.status == 'active' && download.uploadSpeed !== '0'")
-              | {{util.bytesToSize(download.uploadSpeed)}}/s
-            span.eta(v-if="download.status === 'active' && download.downloadSpeed !== '0'")
-              | ETA: {{getETA(download)}}
-          btn.search-subtitle(v-if="$root.config.enableSubtitleFeatures", @mousedown.stop.prevent="", @click="searchSubtitle(download)", passive, title="Search Subtitles")
+  download-line(v-for="download in list", track-by="gid", :download="download", :selected="~selected.indexOf(download.gid)", @mousedown="select(download.gid, $event)", v-touch:doubletap="startOrPause(download)")
 
 </template>
 
 <script>
-import CircleProgress from './circle-progress.vue'
-import * as util from '../services/util'
-import * as moment from 'moment'
-import Btn from './btn.vue'
+import DownloadLine from './download-line.vue'
 
 export default {
-  data () {
-    return {
-      util: util
-    }
-  },
   props: {
     list: Array,
     selected: Array
@@ -133,10 +109,6 @@ export default {
         this.selected = this.gids.slice(args[0], args[1] + 1)
       }
     },
-    getETA: function (download) {
-      var seconds = (download.totalLength - download.completedLength) / download.downloadSpeed
-      return moment.duration(seconds, 'seconds').humanize()
-    },
     startOrPause: function (download) {
       if (download.status === 'paused') this.$dispatch('startSelectedDownloads')
       else if (download.status === 'active') this.$dispatch('pauseSelectedDownloads')
@@ -148,9 +120,6 @@ export default {
       this.$dispatch('searchSubtitle', download)
     }
   },
-  components: {
-    CircleProgress,
-    Btn
-  }
+  components: { DownloadLine }
 }
 </script>
