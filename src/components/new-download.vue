@@ -16,9 +16,34 @@
     .torrents-list
       overflow: auto
       white-space: nowrap
-      height: 100px
+      min-height: 100px
+      max-height: 160px
+      border: 1px solid #DDD
+      border-radius: 2px
       .torrent
-
+        line-height: 30px
+        padding: 0 8px
+        position: relative
+        cursor: default
+        &:nth-child(odd)
+          background-color: #FAFAFA
+        &:hover
+          background-color: $color-grey-4
+          .remove
+            visibility: visible
+        .inner
+          margin-right: 30px
+          overflow: hidden
+          text-overflow: ellipsis
+        .remove
+          visibility: hidden
+          position: absolute
+          right: 0
+          top: 0
+          height: 100%
+          width: 30px
+          background: url(../assets/icon_close.svg) center no-repeat
+          cursor: pointer
 </style>
 
 <template lang="jade">
@@ -34,8 +59,12 @@ modal.new-download(:showing.sync="showing")
       .form-group(v-if="torrents.length")
         .label TORRENTS
         .torrents-list
-          .torrent(v-for="torrent in torrents") {{torrent.name}}
-      .group
+          .torrent(v-for="(i, torrent) in torrents")
+            .inner {{torrent.name}}
+            .remove(@click="torrents.splice(i, 1)")
+      .form-group
+        input(type="file", multiple, @change="uploadFiles")
+      .form-group.group
         .left-part
           .label DESTINATION
           input(v-model="destination", spellcheck="false")
@@ -110,6 +139,10 @@ export default {
           'dir': this.destination
         }
       })
+    },
+    uploadFiles: function (e) {
+      this.$dispatch('uploadFiles', e.target.files)
+      e.target.value = ''
     }
   },
   components: {

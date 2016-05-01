@@ -118,6 +118,12 @@ export default {
     },
     searchSubtitle: function (download) {
       this.$broadcast('searchSubtitle', download)
+    },
+    uploadFiles: function (files) {
+      for (var i = 0; i < files.length; i++) {
+        this.addTorrent(files[i])
+      }
+      this.newDownloadModalShowing = true
     }
   },
   ready: function () {
