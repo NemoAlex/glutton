@@ -44,15 +44,11 @@ export function multicall (server, calls) {
     throw new Error('Can not connect to the server.')
   })
   .then(res => res.json())
-  .then(function (res) {
-    if (res.error) throw new Error(res.error.message)
-    return res
-  })
-  .then(res => res.result.map(value => value[0]))
+  .then(res => res.result.map(value => {
+    if (value.code) throw new Error(value.message)
+    return value[0]
+  }))
   .then(function (results) {
-    results.forEach(result => {
-      if (result.code) throw new Error(result.message)
-    })
     return results
   })
 }
