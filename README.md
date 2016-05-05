@@ -52,4 +52,6 @@ npm install
 npm run dev
 ```
 
-Right now this project is really simple and crude. But if you like to improve it with me, PRs are always welcome.
+## Contribution
+
+If you like to improve it with me, PRs are always welcome.
