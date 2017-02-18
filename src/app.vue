@@ -31,7 +31,7 @@
 .main(v-if="loggedIn", @drop.stop.prevent="dropFiles", @dragover.stop.prevent="onDragOver", @dragenter="dragOver = true", @dragleave="dragOver = false", @drop="dragOver = false", :class="{ 'drag-over': dragOver }")
   .header-els
     header-bar
-    status-bar(:download-speed="downloadSpeed", :upload-speed="uploadSpeed", :filter.sync="filter")
+    status-bar(:download-speed="downloadSpeed", :upload-speed="uploadSpeed", :filter.sync="filter", :order-by.sync="orderBy")
   .content
     .scroll-holder(@click="selectedGids = []")
       download-list(:list="downloadList", :selected.sync="selectedGids", @click.stop="")
