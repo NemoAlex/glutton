@@ -39,9 +39,9 @@ export default {
       return this.downloadList.filter(download => ~this.selectedGids.indexOf(download.gid))
     },
     downloadList: function () {
-      // sort by gid
+      // sort by file name
       var list = this.originalDownloadList.slice(0).sort(function (a, b) {
-        return b.gid > a.gid ? 1 : -1
+        return util.getEntryFileName(b) > util.getEntryFileName(a) ? 1 : -1
       })
       // filter
       if (this.filter) {
