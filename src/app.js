@@ -22,6 +22,7 @@ export default {
       server: Object.assign({}, defaultConfig.defaultServer),
       serverHistory: [
       ],
+      globalOption: {},
       torrents: [],
       downloadSpeed: 0,
       uploadSpeed: 0,
@@ -159,11 +160,13 @@ export default {
         'aria2.getGlobalStat': null,
         'aria2.tellActive': [],
         'aria2.tellWaiting': [0, 1000],
-        'aria2.tellStopped': [0, 1000]
+        'aria2.tellStopped': [0, 1000],
+        'aria2.getGlobalOption': null
       })
       .then(result => {
         this.downloadSpeed = Number(result[0].downloadSpeed)
         this.uploadSpeed = Number(result[0].uploadSpeed)
+        if (!this.settingsWindowShowing) this.globalOption = result[4]
         var list = _.concat(result[1], result[2], result[3])
         this.originalDownloadList = list
       })
