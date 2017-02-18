@@ -63,7 +63,7 @@ export default {
   },
   events: {
     searchSubtitle: function (download) {
-      this.name = download.bittorrent ? download.bittorrent.info.name : util.getFileName(download.files[0].path)
+      this.name = download.bittorrent ? download.bittorrent.info.name : util.getEntryFileName(download)
       this.filePath = util.getFilePath(download.files[0].path)
       this.subtitles = []
       this.searching = true

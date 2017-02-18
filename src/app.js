@@ -29,6 +29,7 @@ export default {
       settingsWindowShowing: false,
       defaultDestination: '',
       filter: '',
+      orderBy: 'name',
       loggedIn: false,
       dragOver: false,
       fetchTimer: {}
@@ -39,9 +40,11 @@ export default {
       return this.downloadList.filter(download => ~this.selectedGids.indexOf(download.gid))
     },
     downloadList: function () {
-      // sort by gid
-      var list = this.originalDownloadList.slice(0).sort(function (a, b) {
-        return b.gid > a.gid ? 1 : -1
+      // sort
+      var list = this.originalDownloadList.slice(0).sort((a, b) => {
+        if (this.orderBy == 'size')
+          return Number(b.totalLength) > Number(a.totalLength) ? 1 : -1
+        return util.getEntryFileName(b) > util.getEntryFileName(a) ? 1 : -1
       })
       // filter
       if (this.filter) {

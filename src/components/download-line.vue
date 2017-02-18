@@ -30,11 +30,7 @@ export default {
       return moment.duration(seconds, 'seconds').humanize()
     },
     name: function () {
-      let name = ''
-      if (this.download.bittorrent) name = this.download.bittorrent.info.name
-      else name = util.getFileName(this.download.files[0].path)
-      if (!name) name = this.download.files[0].uris[0].uri
-      return name || '...'
+      return util.getEntryFileName(this.download)
     },
     progress: function () {
       return this.download.totalLength === '0' ? 0 : this.download.completedLength / this.download.totalLength

@@ -1,8 +1,12 @@
 import * as defaultConfig from '../config.json'
 import * as _ from 'lodash'
 
-export function getFileName (path) {
-  return path.replace(/^.*[\\\/]/, '')
+export function getEntryFileName (listEntry) {
+  let name = ''
+  if (listEntry.bittorrent) name = listEntry.bittorrent.info.name
+  else name = listEntry.files[0].path.replace(/^.*[\\\/]/, '')
+  if (!name) name = listEntry.files[0].uris[0].uri
+  return name || '...'
 }
 
 export function getFilePath (path) {
@@ -51,7 +55,7 @@ export function generateGid (i = 0) {
 }
 
 export function getQueryParam (param) {
-  param = param.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]')
+  param = param.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
   var regex = new RegExp('[\\?&]' + param + '=([^&#]*)')
   var results = regex.exec(window.location.href)
   if (!results) return null
@@ -61,7 +65,7 @@ export function getQueryParam (param) {
 export function parseServerString (s) {
   /* eslint-disable no-unused-vars */
   var [address, secret] = s.split('||')
-  var [url, ssl, host, port, extension] = address.match(/(\w+):\/\/([^\:|\/]+)(\:\d*)?(.*)/i)
+  var [url, ssl, host, port, extension] = address.match(/(\w+):\/\/([^:|\/]+)(:\d*)?(.*)/i)
   ssl = ssl === 'https'
   port = port ? port.replace(':', '') : null
   extension = extension.replace('/', '')
