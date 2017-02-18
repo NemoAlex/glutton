@@ -1,8 +1,12 @@
 import * as defaultConfig from '../config.json'
 import * as _ from 'lodash'
 
-export function getFileName (path) {
-  return path.replace(/^.*[\\\/]/, '')
+export function getEntryFileName (listEntry) {
+  let name = ''
+  if (listEntry.bittorrent) name = listEntry.bittorrent.info.name
+  else name = listEntry.files[0].path.replace(/^.*[\\\/]/, '')
+  if (!name) name = listEntry.files[0].uris[0].uri
+  return name || '...'
 }
 
 export function getFilePath (path) {
