@@ -13,7 +13,8 @@
     .subtitles
       max-height: 300px
       overflow: auto
-
+    .not-found
+      margin-bottom: 10px
 </style>
 
 <template lang="jade">
@@ -26,7 +27,9 @@ modal.subtitle-modal(:showing.sync="showing")
       .subtitles(v-if="!searching && subtitles.length")
         subtitle-line(v-for="subtitle in subtitles", :subtitle.sync="subtitle", :file-path="filePath")
       .loading(v-if="searching") Searching...
-      .not-found(v-if="!searching && !subtitles.length") No results found.
+      div(v-if="!searching && !subtitles.length")
+        .not-found No results found.
+        btn.try-again(@click="searchForMore") Try Again
       .vender Provided by
         a(:href="searchLink", target="_blank") {{serviceName}}
 </template>
@@ -36,6 +39,7 @@ import Modal from './modal.vue'
 import SubtitleLine from './subtitle-line.vue'
 import * as subtitleService from '../services/subtitle.shooter_fake'
 import * as util from '../services/util'
+import Btn from './btn.vue'
 
 export default {
   data () {
@@ -45,12 +49,14 @@ export default {
       showing: false,
       subtitles: [],
       searching: false,
-      filePath: ''
+      filePath: '',
+      download: null
     }
   },
   components: {
     Modal,
-    SubtitleLine
+    SubtitleLine,
+    Btn
   },
   computed: {
     title: function () {
@@ -63,19 +69,28 @@ export default {
   },
   events: {
     searchSubtitle: function (download) {
+      this.searchForSubtitle(download)
+      this.download = download
+    },
+    closeWindow: function () {
+      this.showing = false
+    }
+  },
+  methods: {
+    searchForMore: function () {
+      this.searchForSubtitle(this.download, true)
+    },
+    searchForSubtitle: function (download, searchMore) {
       this.name = download.bittorrent ? download.bittorrent.info.name : util.getEntryFileName(download)
       this.filePath = util.getFilePath(download.files[0].path)
       this.subtitles = []
       this.searching = true
       this.showing = true
-      subtitleService.search(this.title)
+      subtitleService.search(this.title, searchMore)
       .then(subs => {
         this.subtitles = subs
         this.searching = false
       })
-    },
-    closeWindow: function () {
-      this.showing = false
     }
   }
 }
