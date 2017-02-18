@@ -70,7 +70,8 @@ import InputWithDropdown from './input-with-dropdown.vue'
 export default {
   data () {
     return {
-      extensionShowing: false
+      extensionShowing: false,
+      defaultPort: this.server.port
     }
   },
   props: {
@@ -92,6 +93,11 @@ export default {
   methods: {
     connect: function () {
       this.$dispatch('connectToServer', this.server)
+    }
+  },
+  watch: {
+    'server.ssl': function (val) {
+      this.server.port = (val ? 443 : this.$data.defaultPort)
     }
   },
   components: {
