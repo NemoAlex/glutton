@@ -40,11 +40,16 @@ export default {
       return this.downloadList.filter(download => ~this.selectedGids.indexOf(download.gid))
     },
     downloadList: function () {
+      let sorting = ['complete', 'error', 'paused', 'waiting', 'active']
       // sort
       var list = this.originalDownloadList.slice(0).sort((a, b) => {
-        if (this.orderBy == 'size')
-          return Number(b.totalLength) > Number(a.totalLength) ? 1 : -1
-        return util.getEntryFileName(b) > util.getEntryFileName(a) ? 1 : -1
+        if (a.status == b.status) {
+          if (this.orderBy == 'size')
+            return Number(b.totalLength) > Number(a.totalLength) ? 1 : -1
+          return util.getEntryFileName(b) > util.getEntryFileName(a) ? 1 : -1
+        } else {
+          return sorting.indexOf(b.status) > sorting.indexOf(a.status) ? 1 : -1
+        }
       })
       // filter
       if (this.filter) {
