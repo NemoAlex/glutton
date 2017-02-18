@@ -55,7 +55,7 @@ export function generateGid (i = 0) {
 }
 
 export function getQueryParam (param) {
-  param = param.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]')
+  param = param.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
   var regex = new RegExp('[\\?&]' + param + '=([^&#]*)')
   var results = regex.exec(window.location.href)
   if (!results) return null
@@ -65,7 +65,7 @@ export function getQueryParam (param) {
 export function parseServerString (s) {
   /* eslint-disable no-unused-vars */
   var [address, secret] = s.split('||')
-  var [url, ssl, host, port, extension] = address.match(/(\w+):\/\/([^\:|\/]+)(\:\d*)?(.*)/i)
+  var [url, ssl, host, port, extension] = address.match(/(\w+):\/\/([^:|\/]+)(:\d*)?(.*)/i)
   ssl = ssl === 'https'
   port = port ? port.replace(':', '') : null
   extension = extension.replace('/', '')
