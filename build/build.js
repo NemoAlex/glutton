@@ -10,7 +10,9 @@ var spinner = ora('building for production...')
 spinner.start()
 
 rm('-rf', 'dist')
+rm('-rf', 'static')
 mkdir('dist')
+mkdir('static')
 cp('-R', 'static', conf.output.path)
 
 webpack(conf, function (err, stats) {
