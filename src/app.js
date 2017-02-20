@@ -22,6 +22,7 @@ export default {
       server: Object.assign({}, defaultConfig.defaultServer),
       serverHistory: [
       ],
+      globalOption: {},
       torrents: [],
       downloadSpeed: 0,
       uploadSpeed: 0,
@@ -40,11 +41,16 @@ export default {
       return this.downloadList.filter(download => ~this.selectedGids.indexOf(download.gid))
     },
     downloadList: function () {
+      let sorting = ['complete', 'error', 'paused', 'waiting', 'active']
       // sort
       var list = this.originalDownloadList.slice(0).sort((a, b) => {
-        if (this.orderBy == 'size')
-          return Number(b.totalLength) > Number(a.totalLength) ? 1 : -1
-        return util.getEntryFileName(b) > util.getEntryFileName(a) ? 1 : -1
+        if (a.status == b.status) {
+          if (this.orderBy == 'size')
+            return Number(b.totalLength) > Number(a.totalLength) ? 1 : -1
+          return util.getEntryFileName(b) > util.getEntryFileName(a) ? 1 : -1
+        } else {
+          return sorting.indexOf(b.status) > sorting.indexOf(a.status) ? 1 : -1
+        }
       })
       // filter
       if (this.filter) {
@@ -154,11 +160,13 @@ export default {
         'aria2.getGlobalStat': null,
         'aria2.tellActive': [],
         'aria2.tellWaiting': [0, 1000],
-        'aria2.tellStopped': [0, 1000]
+        'aria2.tellStopped': [0, 1000],
+        'aria2.getGlobalOption': null
       })
       .then(result => {
         this.downloadSpeed = Number(result[0].downloadSpeed)
         this.uploadSpeed = Number(result[0].uploadSpeed)
+        if (!this.settingsWindowShowing) this.globalOption = result[4]
         var list = _.concat(result[1], result[2], result[3])
         this.originalDownloadList = list
       })
