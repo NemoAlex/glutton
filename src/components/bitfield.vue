@@ -1,10 +1,11 @@
 <style lang="sass" scoped>
 @import "../assets/variables.sass"
 .btf
+  position: absolute
+  bottom: 7%
   display: block
-  width: 150%
+  width: 100%
   height: 6px
-  border: 1px solid $color-hover
 </style>
 
 <template lang="jade">
