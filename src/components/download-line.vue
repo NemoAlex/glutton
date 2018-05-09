@@ -14,6 +14,7 @@
             span.speed(v-if="isDownloading") {{downloadSpeed}}
             span.speed.upload(v-if="isUploading") {{uploadSpeed}}
             span.eta(v-if="isDownloading") ETA: {{eta}}
+        btf(v-if="download.status === 'active'", :num-pieces="download.numPieces", :bitfield="download.bitfield")
         btn.search-subtitle(v-if="$root.config.enableSubtitleFeatures", @mousedown.stop.prevent="", @click="searchSubtitle(download)", passive, title="Search Subtitles")
 </template>
 <script>
@@ -21,6 +22,7 @@ import CircleProgress from './circle-progress.vue'
 import * as util from '../services/util'
 import * as moment from 'moment'
 import Btn from './btn.vue'
+import Btf from './bitfield.vue'
 
 export default {
   props: ['download', 'selected'],
@@ -58,7 +60,8 @@ export default {
   },
   components: {
     CircleProgress,
-    Btn
+    Btn,
+    Btf
   }
 }
 </script>
